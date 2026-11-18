@@ -1,0 +1,260 @@
+/* ==========================================================================
+   VIRASAT (विरासत) - DESIGN SYSTEM & LUXE HERITAGE STYLES
+   ========================================================================== */
+
+:root {
+  /* Heritage Color Palette */
+  --color-sandstone-light: #FDFBF7;
+  --color-sandstone-parchment: #F5EFEB;
+  --color-sandstone-border: #E8D8C8;
+  --color-indigo-royal: #111827;
+  --color-indigo-deep: #0D1322;
+  --color-indigo-midnight: #080B14;
+  --color-gold-metallic: #D4AF37;
+  --color-gold-light: #F3E5AB;
+  --color-gold-deep: #AA820A;
+  --color-saffron-vibrant: #FF8F00;
+  --color-saffron-warm: #E65100;
+  --color-terracotta: #C85A32;
+  --color-peacock-teal: #0D5C75;
+  --color-ruby-crimson: #9B111E;
+
+  /* Mode tokens (Default Light) */
+  --bg-main: #FAF8F5;
+  --bg-surface: #FFFFFF;
+  --bg-surface-elevated: #F7F3EE;
+  --bg-glass: rgba(255, 255, 255, 0.85);
+  --border-subtle: rgba(212, 175, 55, 0.2);
+  --border-strong: rgba(200, 90, 50, 0.35);
+  --text-primary: #1F242E;
+  --text-secondary: #575F6E;
+  --text-muted: #858E9D;
+  --gold-glow: rgba(212, 175, 55, 0.25);
+  --card-shadow: 0 10px 30px -10px rgba(17, 24, 39, 0.08), 0 4px 6px -2px rgba(17, 24, 39, 0.04);
+  --card-shadow-hover: 0 20px 40px -15px rgba(212, 175, 55, 0.25), 0 8px 16px -4px rgba(17, 24, 39, 0.1);
+}
+
+.dark {
+  /* Mode tokens (Dark Ink & Night Palace) */
+  --bg-main: #0B0E14;
+  --bg-surface: #121722;
+  --bg-surface-elevated: #1A2130;
+  --bg-glass: rgba(18, 23, 34, 0.88);
+  --border-subtle: rgba(212, 175, 55, 0.18);
+  --border-strong: rgba(212, 175, 55, 0.3);
+  --text-primary: #F3F4F6;
+  --text-secondary: #9CA3AF;
+  --text-muted: #6B7280;
+  --gold-glow: rgba(212, 175, 55, 0.2);
+  --card-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.6);
+  --card-shadow-hover: 0 20px 40px -15px rgba(212, 175, 55, 0.3);
+}
+
+/* Base resets & typography */
+body {
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, .font-heading {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+}
+
+.font-cinzel {
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.05em;
+}
+
+.font-devanagari {
+  font-family: 'Noto Sans Devanagari', sans-serif;
+}
+
+/* Traditional Jaali (Indian lattice work) background pattern */
+.bg-jaali-subtle {
+  background-image: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.08) 1.5px, transparent 1.5px),
+                    radial-gradient(circle at 0 0, rgba(200, 90, 50, 0.06) 1.5px, transparent 1.5px);
+  background-size: 24px 24px;
+}
+
+.dark .bg-jaali-subtle {
+  background-image: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.06) 1.5px, transparent 1.5px),
+                    radial-gradient(circle at 0 0, rgba(230, 81, 0, 0.05) 1.5px, transparent 1.5px);
+  background-size: 24px 24px;
+}
+
+/* Glassmorphism navigation bar */
+.glass-nav {
+  background-color: var(--bg-glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-subtle);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-nav.nav-scrolled {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+}
+
+/* Heritage Cards with golden rim hover interaction */
+.heritage-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--card-shadow);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.heritage-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(212, 175, 55, 0.6);
+  box-shadow: var(--card-shadow-hover);
+}
+
+.heritage-card .zoom-img {
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.heritage-card:hover .zoom-img {
+  transform: scale(1.06);
+}
+
+/* Gold Gradient Button */
+.btn-gold {
+  background: linear-gradient(135deg, #E5C07B 0%, #D4AF37 50%, #B8860B 100%);
+  color: #0F172A;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.35);
+}
+
+.btn-gold:hover {
+  background: linear-gradient(135deg, #F3E5AB 0%, #E5C07B 50%, #D4AF37 100%);
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5);
+  transform: translateY(-2px);
+}
+
+.btn-terracotta {
+  background: linear-gradient(135deg, #E65100 0%, #C85A32 50%, #A03D1A 100%);
+  color: #FFFFFF;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(200, 90, 50, 0.35);
+}
+
+.btn-terracotta:hover {
+  filter: brightness(1.1);
+  box-shadow: 0 6px 20px rgba(200, 90, 50, 0.5);
+  transform: translateY(-2px);
+}
+
+.btn-outline-gold {
+  border: 1px solid var(--color-gold-metallic);
+  color: var(--color-gold-metallic);
+  background: transparent;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-gold:hover {
+  background: rgba(212, 175, 55, 0.15);
+  border-color: #F3E5AB;
+  color: #F3E5AB;
+}
+
+/* Badges */
+.badge-unesco {
+  background: linear-gradient(135deg, #0055A5 0%, #0D5C75 100%);
+  color: #FFFFFF;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.badge-tag {
+  background: rgba(212, 175, 55, 0.15);
+  color: #B8860B;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  font-size: 0.75rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 9999px;
+  font-weight: 500;
+}
+
+.dark .badge-tag {
+  color: #E5C07B;
+  background: rgba(212, 175, 55, 0.1);
+  border-color: rgba(212, 175, 55, 0.25);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-main);
+}
+::-webkit-scrollbar-thumb {
+  background: #C8B9A6;
+  border-radius: 4px;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: #2D3748;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #D4AF37;
+}
+
+/* HTMX transition indicators */
+.htmx-indicator {
+  opacity: 0;
+  transition: opacity 200ms ease-in;
+}
+.htmx-request .htmx-indicator {
+  opacity: 1;
+}
+.htmx-request.htmx-indicator {
+  opacity: 1;
+}
+
+/* Gold shimmer animation */
+@keyframes goldShimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.shimmer-gold {
+  background: linear-gradient(90deg, rgba(212, 175, 55, 0.1) 0%, rgba(212, 175, 55, 0.3) 50%, rgba(212, 175, 55, 0.1) 100%);
+  background-size: 200% 100%;
+  animation: goldShimmer 2.5s infinite;
+}
+
+/* Timeline line styling */
+.timeline-stem {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, #D4AF37 0%, #C85A32 50%, #111827 100%);
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

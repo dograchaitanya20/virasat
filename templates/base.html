@@ -1,0 +1,104 @@
+{% load static i18n %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE|default:'en' }}" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}{{ SITE_NAME }} ({{ SITE_NAME_HI }}) — The Living Digital Tapestry of India{% endblock %}</title>
+  
+  <meta name="description" content="{% block meta_description %}Explore India's five millennia of cultural heritage: UNESCO monuments, living festivals, classical arts, regional cuisines, and historical timelines.{% endblock %}">
+  <meta name="keywords" content="{% block meta_keywords %}India heritage, UNESCO world heritage India, Indian culture, Indian festivals, classical dance, Indian cuisine, Taj Mahal, Hampi{% endblock %}">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Virasat (विरासत)">
+  <meta property="og:title" content="{% block og_title %}{{ SITE_NAME }} — Cultural Heritage of India{% endblock %}">
+  <meta property="og:description" content="{% block og_description %}Discover India's timeless monuments, festivals, crafts, and living heritage in high-definition interactive clarity.{% endblock %}">
+  <meta property="og:image" content="{% block og_image %}https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=1200&q=80{% endblock %}">
+  <meta property="og:url" content="{{ request.build_absolute_uri }}">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{% block twitter_title %}{{ SITE_NAME }} — Cultural Heritage of India{% endblock %}">
+  <meta name="twitter:description" content="{% block twitter_description %}Discover India's timeless monuments, festivals, crafts, and living heritage.{% endblock %}">
+  <meta name="twitter:image" content="{% block twitter_image %}https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=1200&q=80{% endblock %}">
+
+  <link rel="canonical" href="{{ request.build_absolute_uri }}">
+
+  <!-- Inline SVG Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23D4AF37'%3E%3Cpath d='M12 2C12 2 9 6.5 9 10C9 11.66 10.34 13 12 13C13.66 13 15 11.66 15 10C15 6.5 12 2 12 2ZM5.5 8C4.12 8 3 9.12 3 10.5C3 13.5 7.5 16.5 7.5 16.5C7.5 16.5 6.5 14.5 6.5 13C6.5 11.9 7.4 11 8.5 11C8.85 11 9.18 11.09 9.47 11.26C8.57 10.3 8 9 8 8C8 8 6.5 8 5.5 8ZM18.5 8C17.5 8 16 8 16 8C16 9 15.43 10.3 14.53 11.26C14.82 11.09 15.15 11 15.5 11C16.6 11 17.5 11.9 17.5 13C17.5 14.5 16.5 16.5 16.5 16.5C16.5 16.5 21 13.5 21 10.5C21 9.12 19.88 8 18.5 8ZM12 14C9.5 14 4 15.5 4 19V21H20V19C20 15.5 14.5 14 12 14Z'/%3E%3C/svg%3E">
+
+  <!-- Google Fonts: Cinzel, Cormorant Garamond, Plus Jakarta Sans, Noto Sans Devanagari (with system fallbacks) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Local Compiled Tailwind CSS -->
+  <link rel="stylesheet" href="{% static 'css/tailwind.css' %}">
+
+  <!-- Vendor CSS (Local) -->
+  <link rel="stylesheet" href="{% static 'vendor/swiper/swiper-bundle.min.css' %}">
+  <link rel="stylesheet" href="{% static 'vendor/leaflet/leaflet.css' %}">
+  <link rel="stylesheet" href="{% static 'vendor/glightbox/glightbox.min.css' %}">
+
+  <!-- Custom Virasat Styles -->
+  <link rel="stylesheet" href="{% static 'css/virasat.css' %}">
+
+  <!-- Vendor JS (Local) -->
+  <script src="{% static 'vendor/htmx/htmx.min.js' %}"></script>
+  <script defer src="{% static 'vendor/alpine/alpine.min.js' %}"></script>
+  <script src="{% static 'vendor/gsap/gsap.min.js' %}"></script>
+  <script src="{% static 'vendor/gsap/ScrollTrigger.min.js' %}"></script>
+  <script src="{% static 'vendor/swiper/swiper-bundle.min.js' %}"></script>
+  <script src="{% static 'vendor/leaflet/leaflet.js' %}"></script>
+  <script>
+    if (window.L && L.Icon && L.Icon.Default) {
+      L.Icon.Default.imagePath = "{% static 'vendor/leaflet/images/' %}";
+    }
+  </script>
+  <script src="{% static 'vendor/glightbox/glightbox.min.js' %}"></script>
+
+  <!-- App Core JS -->
+  <script src="{% static 'js/app.js' %}"></script>
+
+  {% block extra_head %}{% endblock %}
+</head>
+
+<body class="min-h-screen flex flex-col antialiased selection:bg-amber-500 selection:text-slate-900 bg-jaali-subtle">
+  
+  <!-- Accessibility Skip Link -->
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-50 focus:px-4 focus:py-2 focus:bg-amber-500 focus:text-slate-900 focus:font-bold focus:rounded-md shadow-lg">
+    Skip to main content
+  </a>
+
+  <!-- Top Navigation Bar -->
+  {% include 'components/navbar.html' %}
+
+  <!-- Main Content Block -->
+  <main id="main-content" class="flex-grow">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Global Footer -->
+  {% include 'components/footer.html' %}
+
+  <!-- Global Search Modal (Ctrl+K) -->
+  {% include 'components/search_modal.html' %}
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="fixed bottom-6 right-6 z-50 space-y-3 max-w-sm pointer-events-none"></div>
+
+  <!-- Render Django Messages as Toasts -->
+  {% if messages %}
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      {% for message in messages %}
+        showToast("{{ message|escapejs }}", "{{ message.tags|default:'info' }}");
+      {% endfor %}
+    });
+  </script>
+  {% endif %}
+
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

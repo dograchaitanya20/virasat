@@ -1,0 +1,328 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block title %}Test Your India IQ — Cultural Heritage Challenge | Virasat{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8"
+     x-data="quizApp()"
+     x-init="initQuiz()">
+  
+  <!-- ==========================================
+       SCREEN 1: WELCOME SCREEN
+       ========================================== -->
+  <div x-show="gameState === 'start'" x-cloak class="heritage-card rounded-3xl p-8 sm:p-12 text-center space-y-6 bg-white dark:bg-slate-900 border border-amber-500/30">
+    <div class="w-16 h-16 mx-auto rounded-full bg-gradient-to-tr from-amber-600 to-amber-300 p-0.5 shadow-xl">
+      <div class="w-full h-full bg-slate-950 rounded-full flex items-center justify-center">
+        <svg class="w-8 h-8 text-amber-400" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 16h-2v-2h2v2zm1.07-7.75l-.9.92C12.45 11.9 12 12.5 12 14h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.04-.42 1.99-1.07 2.75z"/></svg>
+      </div>
+    </div>
+
+    <div class="space-y-2">
+      <span class="text-xs font-bold uppercase tracking-widest text-amber-600 dark:text-amber-400 font-cinzel">National Heritage Challenge</span>
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold font-heading text-slate-900 dark:text-white">
+        Test Your India IQ
+      </h1>
+      <p class="text-xs sm:text-sm text-slate-500 max-w-md mx-auto leading-relaxed">
+        Answer 10 curated questions across monuments, sacred festivals, classical arts, regional cuisines, and ancient dynasties.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-3 gap-3 max-w-sm mx-auto text-center py-2">
+      <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+        <span class="text-base font-bold font-cinzel text-amber-500">10</span>
+        <p class="text-[10px] text-slate-400 uppercase">Questions</p>
+      </div>
+      <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+        <span class="text-base font-bold font-cinzel text-amber-500">Instant</span>
+        <p class="text-[10px] text-slate-400 uppercase">Feedback</p>
+      </div>
+      <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+        <span class="text-base font-bold font-cinzel text-amber-500">National</span>
+        <p class="text-[10px] text-slate-400 uppercase">Leaderboard</p>
+      </div>
+    </div>
+
+    <div class="pt-2">
+      <button @click="startQuiz()" class="btn-gold px-8 py-3 rounded-full text-xs font-bold uppercase tracking-wider shadow-lg">
+        Begin Heritage Challenge
+      </button>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       SCREEN 2: IN-GAME QUESTION ACTIVE
+       ========================================== -->
+  <div x-show="gameState === 'playing'" x-cloak class="space-y-6">
+    
+    <!-- Header: Progress Bar & Timer -->
+    <div class="flex items-center justify-between text-xs text-slate-500">
+      <div class="flex items-center gap-2">
+        <span class="font-bold text-amber-600 dark:text-amber-400 font-cinzel" x-text="`Question ${currentIndex + 1} of ${questions.length}`"></span>
+        <span class="text-slate-400">•</span>
+        <span class="px-2 py-0.5 rounded-full bg-slate-200 dark:bg-slate-800 text-[10px] text-slate-700 dark:text-slate-300 font-semibold" x-text="currentQuestion.category"></span>
+      </div>
+      <div class="flex items-center gap-1.5 font-mono text-amber-600 dark:text-amber-400 font-bold">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        <span x-text="`${timer}s`"></span>
+      </div>
+    </div>
+
+    <!-- Question Progress Bar Line -->
+    <div class="w-full h-1.5 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+      <div class="h-full bg-gradient-to-r from-amber-600 to-amber-400 transition-all duration-300"
+           :style="`width: ${((currentIndex + 1) / questions.length) * 100}%`"></div>
+    </div>
+
+    <!-- Question Card -->
+    <div class="heritage-card rounded-3xl p-6 sm:p-8 space-y-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+      
+      <h2 class="text-xl sm:text-2xl font-bold font-heading text-slate-900 dark:text-white leading-snug"
+          x-text="currentQuestion.question"></h2>
+
+      <!-- Options List -->
+      <div class="space-y-3">
+        
+        <!-- Option A -->
+        <button @click="chooseOption('A')"
+                :disabled="answered"
+                :class="getOptionClass('A')"
+                class="w-full text-left p-4 rounded-2xl border text-xs sm:text-sm font-medium transition-all flex items-center justify-between group">
+          <div class="flex items-center gap-3">
+            <span class="w-7 h-7 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 flex items-center justify-center text-xs font-bold shrink-0">A</span>
+            <span x-text="currentQuestion.option_a"></span>
+          </div>
+          <span x-show="answered && currentQuestion.correct_option === 'A'" class="text-emerald-500 font-bold">✓ Correct</span>
+          <span x-show="answered && selectedOption === 'A' && currentQuestion.correct_option !== 'A'" class="text-rose-500 font-bold">✕ Incorrect</span>
+        </button>
+
+        <!-- Option B -->
+        <button @click="chooseOption('B')"
+                :disabled="answered"
+                :class="getOptionClass('B')"
+                class="w-full text-left p-4 rounded-2xl border text-xs sm:text-sm font-medium transition-all flex items-center justify-between group">
+          <div class="flex items-center gap-3">
+            <span class="w-7 h-7 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 flex items-center justify-center text-xs font-bold shrink-0">B</span>
+            <span x-text="currentQuestion.option_b"></span>
+          </div>
+          <span x-show="answered && currentQuestion.correct_option === 'B'" class="text-emerald-500 font-bold">✓ Correct</span>
+          <span x-show="answered && selectedOption === 'B' && currentQuestion.correct_option !== 'B'" class="text-rose-500 font-bold">✕ Incorrect</span>
+        </button>
+
+        <!-- Option C -->
+        <button @click="chooseOption('C')"
+                :disabled="answered"
+                :class="getOptionClass('C')"
+                class="w-full text-left p-4 rounded-2xl border text-xs sm:text-sm font-medium transition-all flex items-center justify-between group">
+          <div class="flex items-center gap-3">
+            <span class="w-7 h-7 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 flex items-center justify-center text-xs font-bold shrink-0">C</span>
+            <span x-text="currentQuestion.option_c"></span>
+          </div>
+          <span x-show="answered && currentQuestion.correct_option === 'C'" class="text-emerald-500 font-bold">✓ Correct</span>
+          <span x-show="answered && selectedOption === 'C' && currentQuestion.correct_option !== 'C'" class="text-rose-500 font-bold">✕ Incorrect</span>
+        </button>
+
+        <!-- Option D -->
+        <button @click="chooseOption('D')"
+                :disabled="answered"
+                :class="getOptionClass('D')"
+                class="w-full text-left p-4 rounded-2xl border text-xs sm:text-sm font-medium transition-all flex items-center justify-between group">
+          <div class="flex items-center gap-3">
+            <span class="w-7 h-7 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 flex items-center justify-center text-xs font-bold shrink-0">D</span>
+            <span x-text="currentQuestion.option_d"></span>
+          </div>
+          <span x-show="answered && currentQuestion.correct_option === 'D'" class="text-emerald-500 font-bold">✓ Correct</span>
+          <span x-show="answered && selectedOption === 'D' && currentQuestion.correct_option !== 'D'" class="text-rose-500 font-bold">✕ Incorrect</span>
+        </button>
+
+      </div>
+
+      <!-- Explanation Box Revealed After Answer -->
+      <div x-show="answered" x-transition class="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-xs sm:text-sm text-slate-800 dark:text-slate-200 space-y-1">
+        <p class="font-bold text-amber-600 dark:text-amber-400">Archival Fact:</p>
+        <p x-text="currentQuestion.explanation" class="leading-relaxed"></p>
+      </div>
+
+      <!-- Next Button -->
+      <div x-show="answered" class="pt-2 flex justify-end">
+        <button @click="nextQuestion()" class="btn-gold px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider inline-flex items-center gap-2">
+          <span x-text="currentIndex < questions.length - 1 ? 'Next Question' : 'View Final Score'"></span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ==========================================
+       SCREEN 3: FINAL SCORE & CERTIFICATE
+       ========================================== -->
+  <div x-show="gameState === 'result'" x-cloak class="heritage-card rounded-3xl p-8 sm:p-12 text-center space-y-8 bg-white dark:bg-slate-900 border border-amber-500/30 shadow-2xl">
+    
+    <div class="space-y-3">
+      <span class="text-xs font-bold uppercase tracking-widest text-amber-600 dark:text-amber-400 font-cinzel">Heritage IQ Result</span>
+      <h2 class="text-3xl sm:text-4xl font-bold font-heading text-slate-900 dark:text-white" x-text="getResultTitle()"></h2>
+      <p class="text-xs sm:text-sm text-slate-500 max-w-sm mx-auto" x-text="getResultSubtitle()"></p>
+    </div>
+
+    <!-- Radial Score Card -->
+    <div class="w-36 h-36 mx-auto rounded-full bg-gradient-to-tr from-amber-600 to-amber-300 p-1 shadow-2xl">
+      <div class="w-full h-full bg-slate-950 rounded-full flex flex-col items-center justify-center text-white">
+        <span class="text-4xl font-bold font-cinzel text-amber-400" x-text="`${score}/${questions.length}`"></span>
+        <span class="text-[11px] text-slate-400" x-text="`${Math.round((score/questions.length)*100)}% Accuracy`"></span>
+      </div>
+    </div>
+
+    <div class="text-xs text-slate-500">
+      Completed in <span class="font-bold text-amber-500" x-text="`${timer} seconds`"></span>
+    </div>
+
+    <!-- Leaderboard Submission Form -->
+    <div x-show="!scoreSubmitted" class="max-w-sm mx-auto p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-3">
+      <p class="text-xs font-semibold text-slate-700 dark:text-slate-300">Submit score to the National Leaderboard:</p>
+      <div class="flex gap-2">
+        <input type="text"
+               x-model="playerName"
+               placeholder="Your Name / Explorer Handle"
+               class="flex-grow px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-xs focus:outline-none focus:ring-1 focus:ring-amber-500">
+        <button @click="submitScore()" class="btn-gold px-4 py-2 rounded-xl text-xs font-bold">
+          Submit
+        </button>
+      </div>
+    </div>
+
+    <div x-show="scoreSubmitted" class="p-4 rounded-2xl bg-emerald-900/30 border border-emerald-500/50 text-emerald-200 text-xs">
+      🎉 Score recorded on National Leaderboard! Your national rank: <strong class="text-emerald-400 font-bold" x-text="`#${playerRank}`"></strong>
+    </div>
+
+    <div class="flex items-center justify-center gap-4 pt-4 border-t border-slate-100 dark:border-slate-800">
+      <button @click="startQuiz()" class="btn-gold px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider">
+        Play Again
+      </button>
+      <a href="{% url 'quiz:leaderboard' %}" class="btn-outline-gold px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider">
+        View Leaderboard
+      </a>
+    </div>
+
+  </div>
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  function quizApp() {
+    return {
+      questions: {{ questions_json|safe }},
+      gameState: 'start',
+      currentIndex: 0,
+      score: 0,
+      timer: 0,
+      timerInterval: null,
+      selectedOption: null,
+      answered: false,
+      playerName: '{% if user.is_authenticated %}{{ user.username|escapejs }}{% else %}Explorer{% endif %}',
+      scoreSubmitted: false,
+      playerRank: null,
+
+      get currentQuestion() {
+        return this.questions[this.currentIndex] || {};
+      },
+
+      initQuiz() {
+        // Ready
+      },
+
+      startQuiz() {
+        this.gameState = 'playing';
+        this.currentIndex = 0;
+        this.score = 0;
+        this.timer = 0;
+        this.selectedOption = null;
+        this.answered = false;
+        this.scoreSubmitted = false;
+        
+        if (this.timerInterval) clearInterval(this.timerInterval);
+        this.timerInterval = setInterval(() => {
+          this.timer++;
+        }, 1000);
+      },
+
+      chooseOption(option) {
+        if (this.answered) return;
+        this.selectedOption = option;
+        this.answered = true;
+        
+        if (option === this.currentQuestion.correct_option) {
+          this.score++;
+        }
+      },
+
+      getOptionClass(option) {
+        if (!this.answered) {
+          return 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:border-amber-500 hover:bg-amber-500/5 text-slate-800 dark:text-slate-200';
+        }
+        if (option === this.currentQuestion.correct_option) {
+          return 'bg-emerald-500/15 border-emerald-500 text-emerald-700 dark:text-emerald-300 font-bold';
+        }
+        if (option === this.selectedOption) {
+          return 'bg-rose-500/15 border-rose-500 text-rose-700 dark:text-rose-300';
+        }
+        return 'opacity-50 border-slate-200 dark:border-slate-800 text-slate-500';
+      },
+
+      nextQuestion() {
+        if (this.currentIndex < this.questions.length - 1) {
+          this.currentIndex++;
+          this.selectedOption = null;
+          this.answered = false;
+        } else {
+          clearInterval(this.timerInterval);
+          this.gameState = 'result';
+        }
+      },
+
+      getResultTitle() {
+        const pct = (this.score / this.questions.length) * 100;
+        if (pct >= 90) return 'Grand National Archivist 🏆';
+        if (pct >= 70) return 'Heritage Scholar 📜';
+        if (pct >= 50) return 'Cultural Explorer 🧭';
+        return 'Curious Seeker 🔍';
+      },
+
+      getResultSubtitle() {
+        const pct = (this.score / this.questions.length) * 100;
+        if (pct >= 90) return 'Remarkable mastery over India\'s ancient monuments, classical arts, and sacred history.';
+        if (pct >= 70) return 'Commendable depth of knowledge across Indian regional traditions.';
+        return 'An auspicious start. Continue exploring the Virasat archives to deepen your mastery.';
+      },
+
+      async submitScore() {
+        try {
+          const res = await fetch("{% url 'quiz:submit_score' %}", {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRFToken': '{{ csrf_token }}'
+            },
+            body: JSON.stringify({
+              player_name: this.playerName,
+              score: this.score,
+              total_questions: this.questions.length,
+              time_taken: this.timer
+            })
+          });
+          const data = await res.json();
+          if (data.status === 'success') {
+            this.scoreSubmitted = true;
+            this.playerRank = data.rank;
+          }
+        } catch (e) {
+          alert('Could not record score at this moment.');
+        }
+      }
+    }
+  }
+</script>
+{% endblock %}

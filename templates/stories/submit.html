@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block title %}Submit a Cultural Story — Virasat{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
+  
+  <div class="space-y-2 text-center">
+    <span class="text-xs font-bold uppercase tracking-widest text-amber-600 dark:text-amber-400 font-cinzel">Open Archives</span>
+    <h1 class="text-3xl sm:text-4xl font-bold font-heading text-slate-900 dark:text-white">
+      Submit a Living Story
+    </h1>
+    <p class="text-xs sm:text-sm text-slate-500">
+      Share local architectural legends, temple histories, folk rituals, or ancestral traditions.
+    </p>
+  </div>
+
+  <div class="heritage-card rounded-3xl p-8 sm:p-10 bg-white dark:bg-slate-900 border border-amber-500/30">
+    <form method="post" class="space-y-5">
+      {% csrf_token %}
+      
+      <div class="space-y-1.5">
+        <label class="text-xs font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300">Article Title</label>
+        <input type="text" name="title" required placeholder="e.g. The Forgotten Sun Temple of Katarmal"
+               class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500">
+      </div>
+
+      <div class="space-y-1.5">
+        <label class="text-xs font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300">Short Excerpt (1-2 sentences)</label>
+        <textarea name="excerpt" rows="2" required placeholder="Brief compelling summary for cards and search..."
+                  class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"></textarea>
+      </div>
+
+      <div class="space-y-1.5">
+        <label class="text-xs font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300">Full Cultural Narrative</label>
+        <textarea name="body" rows="10" required placeholder="Narrate your experience, historical background, local interviews, or oral folklore..."
+                  class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"></textarea>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="space-y-1.5">
+          <label class="text-xs font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300">Topics / Tags</label>
+          <input type="text" name="tags" placeholder="e.g. Almora, Sun Temple, Kumaon"
+                 class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500">
+        </div>
+
+        <div class="space-y-1.5">
+          <label class="text-xs font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300">Cover Photo URL</label>
+          <input type="url" name="cover_image" placeholder="https://images.unsplash.com/..."
+                 class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500">
+        </div>
+      </div>
+
+      <button type="submit" class="w-full btn-gold py-3 rounded-xl text-xs font-bold uppercase tracking-wider mt-2">
+        Publish to Living Archives
+      </button>
+    </form>
+  </div>
+
+</div>
+{% endblock %}

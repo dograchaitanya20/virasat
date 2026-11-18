@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block title %}{{ dish.name }} — Regional Culinary Heritage & Recipe | Virasat{% endblock %}
+
+{% block content %}
+<div class="relative min-h-[50vh] flex items-end overflow-hidden bg-slate-950 text-white">
+  <img src="{{ dish.hero_image }}" alt="Gastronomic photograph of {{ dish.name }}" onerror="this.onerror=null; this.src='/static/images/placeholder.svg';" class="absolute inset-0 w-full h-full object-cover filter brightness-75">
+  <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-transparent"></div>
+  {% if dish.image_credit %}
+  <div class="absolute bottom-3 right-4 z-20 text-[11px] text-white/80 bg-black/50 backdrop-blur-sm px-3 py-1 rounded-full border border-white/10 shadow-sm">
+    Photo: {% if dish.image_source_url %}<a href="{{ dish.image_source_url }}" target="_blank" rel="noopener noreferrer" class="underline hover:text-amber-300">{{ dish.image_credit }}</a>{% else %}{{ dish.image_credit }}{% endif %}{% if dish.image_license %} &bull; {{ dish.image_license }}{% endif %}
+  </div>
+  {% endif %}
+  
+  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full space-y-4">
+    <div class="flex flex-wrap items-center gap-2 text-xs">
+      <a href="{% url 'core:home' %}" class="text-slate-400 hover:text-white">Home</a>
+      <span class="text-slate-600">/</span>
+      <a href="{% url 'cuisine:list' %}" class="text-slate-400 hover:text-white">Cuisine</a>
+      <span class="text-slate-600">/</span>
+      <span class="text-amber-400 font-medium">{{ dish.name }}</span>
+    </div>
+
+    <div class="flex flex-wrap items-center gap-3">
+      {% if dish.veg_or_non_veg == 'veg' %}
+      <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-950/80 text-emerald-300 border border-emerald-500/50">
+        <span class="w-2 h-2 rounded-full bg-emerald-400"></span> Pure Vegetarian
+      </span>
+      {% else %}
+      <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-rose-950/80 text-rose-300 border border-rose-500/50">
+        <span class="w-2 h-2 rounded-full bg-rose-400"></span> Non-Vegetarian
+      </span>
+      {% endif %}
+      <span class="px-3 py-1 rounded-full text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/40">
+        {{ dish.meal_type }}
+      </span>
+      <span class="px-3 py-1 rounded-full text-xs font-semibold bg-slate-900/60 backdrop-blur-md text-slate-200">
+        📍 {{ dish.state.name }}
+      </span>
+    </div>
+
+    <div class="space-y-2">
+      <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold font-heading text-white">
+        {{ dish.name }}
+      </h1>
+      <p class="text-sm sm:text-base text-amber-100 max-w-2xl font-light">
+        A masterwork of Indian culinary alchemy balancing Ayurvedic rasas and aromatic spice profiles.
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+    
+    <div class="lg:col-span-8 space-y-10">
+      
+      <!-- Folklore & Origin -->
+      <div class="space-y-4">
+        <h2 class="text-xs font-bold uppercase tracking-widest text-orange-600 dark:text-orange-400 font-cinzel">Culinary Story & Heritage</h2>
+        <div class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-sm sm:text-base text-slate-700 dark:text-slate-300 leading-relaxed space-y-3">
+          {{ dish.story|linebreaks }}
+        </div>
+      </div>
+
+      <!-- Essential Ingredients & Spices -->
+      <div class="space-y-4">
+        <h3 class="text-2xl font-bold font-heading text-slate-900 dark:text-white flex items-center gap-2">
+          <svg class="w-6 h-6 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+          Signature Ingredients & Botanical Spices
+        </h3>
+        <div class="p-6 rounded-2xl bg-orange-500/10 border border-orange-500/20 text-xs sm:text-sm text-slate-800 dark:text-slate-200 leading-relaxed space-y-3">
+          {{ dish.ingredients|linebreaks }}
+        </div>
+      </div>
+
+      <!-- Gastronomic Harmony -->
+      <div class="space-y-4 pt-4 border-t border-slate-200 dark:border-slate-800">
+        <h3 class="text-2xl font-bold font-heading text-slate-900 dark:text-white">The Six Tastes (Shad Rasa)</h3>
+        <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+          Traditional Indian cuisine is deeply rooted in Ayurveda, harmonizing sweet (madhura), sour (amla), salty (lavana), pungent (katu), bitter (tikta), and astringent (kashaya) qualities to ensure nutritional vitality and digestive wellness.
+        </p>
+      </div>
+
+    </div>
+
+    <!-- 4 cols right -->
+    <div class="lg:col-span-4 space-y-8">
+      
+      <div class="heritage-card rounded-3xl p-6 space-y-5">
+        <h3 class="text-xs font-bold uppercase tracking-widest text-orange-600 dark:text-orange-400 font-cinzel">
+          Kitchen Dossier
+        </h3>
+        <dl class="space-y-3 text-xs divide-y divide-slate-100 dark:divide-slate-800">
+          <div class="flex justify-between pt-2">
+            <dt class="text-slate-400">Regional Origin:</dt>
+            <dd class="font-semibold text-slate-900 dark:text-slate-100 text-right">{{ dish.state.name }}</dd>
+          </div>
+          <div class="flex justify-between pt-3">
+            <dt class="text-slate-400">Dietary Classification:</dt>
+            <dd class="font-semibold text-slate-900 dark:text-slate-100 text-right">{{ dish.get_veg_or_non_veg_display }}</dd>
+          </div>
+          <div class="flex justify-between pt-3">
+            <dt class="text-slate-400">Meal Course:</dt>
+            <dd class="font-semibold text-slate-900 dark:text-slate-100 text-right">{{ dish.meal_type }}</dd>
+          </div>
+          <div class="flex justify-between pt-3">
+            <dt class="text-slate-400">Spice Heat Index:</dt>
+            <dd class="font-semibold text-orange-600 dark:text-orange-400 text-right">{{ dish.spice_level }}</dd>
+          </div>
+          <div class="flex justify-between pt-3">
+            <dt class="text-slate-400">Preparation Time:</dt>
+            <dd class="font-semibold text-slate-900 dark:text-slate-100 text-right">{{ dish.cooking_time }}</dd>
+          </div>
+        </dl>
+      </div>
+
+      {% if related_dishes %}
+      <div class="space-y-4">
+        <h4 class="text-xs font-bold uppercase tracking-widest text-slate-500 font-cinzel">More {{ dish.state.name }} Flavours</h4>
+        <div class="space-y-3">
+          {% for r_dish in related_dishes %}
+          <a href="{{ r_dish.get_absolute_url }}" class="flex items-center gap-3 p-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-orange-500/40 transition-colors group">
+            <img src="{{ r_dish.hero_image }}" alt="Regional dish {{ r_dish.name }}" onerror="this.onerror=null; this.src='/static/images/placeholder.svg';" class="w-14 h-14 rounded-xl object-cover">
+            <div class="min-w-0">
+              <h5 class="text-xs font-bold text-slate-900 dark:text-slate-100 group-hover:text-orange-600 dark:group-hover:text-orange-400 truncate">{{ r_dish.name }}</h5>
+              <p class="text-[10px] text-slate-500">{{ r_dish.state.name }} • {{ r_dish.get_veg_or_non_veg_display }}</p>
+            </div>
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+    </div>
+
+  </div>
+</div>
+{% endblock %}

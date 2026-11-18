@@ -1,0 +1,6 @@
+<button hx-post="{% url 'accounts:toggle_bookmark' %}?content_type={{ content_type }}&object_id={{ object_id }}"
+        hx-swap="outerHTML"
+        class="w-full py-2.5 rounded-xl text-xs font-bold border {% if is_bookmarked %}bg-amber-500/20 text-amber-600 dark:text-amber-300 border-amber-500/50{% else %}border-amber-500 text-amber-600 dark:text-amber-400 hover:bg-amber-500/10{% endif %} flex items-center justify-center gap-2 transition-colors">
+  <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg>
+  <span>{% if is_bookmarked %}Saved in My Collection{% else %}Save to My Collection{% endif %}</span>
+</button>

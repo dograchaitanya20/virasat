@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block title %}States & Territories of India — Virasat{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
+  
+  <div class="text-center space-y-3 max-w-3xl mx-auto">
+    <span class="text-xs font-bold uppercase tracking-widest text-amber-600 dark:text-amber-400 font-cinzel">The Federal Mosaic</span>
+    <h1 class="text-4xl sm:text-5xl font-bold font-heading text-slate-900 dark:text-amber-50">
+      States & Union Territories of India
+    </h1>
+    <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
+      Explore the distinct linguistic, architectural, artistic, and culinary heritage of each Indian state and territory.
+    </p>
+  </div>
+
+  <!-- Filters Row -->
+  <div class="bg-white dark:bg-slate-900 rounded-3xl p-5 shadow-xl border border-amber-500/20 space-y-4">
+    <form method="get" autocomplete="off" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div class="relative">
+        <input type="text" name="q" value="{{ search_query }}" placeholder="Search state name, capital, or specialty..."
+               class="w-full pl-4 pr-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-amber-500">
+      </div>
+      <div>
+        <select name="region" onchange="this.form.submit()"
+                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-amber-500">
+          <option value="">All Regions</option>
+          {% for r in regions %}
+          <option value="{{ r }}" {% if selected_region == r %}selected{% endif %}>{{ r }} India</option>
+          {% endfor %}
+        </select>
+      </div>
+    </form>
+  </div>
+
+  <!-- States Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    {% for st in states %}
+    <div class="heritage-card rounded-2xl overflow-hidden flex flex-col group bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80">
+      
+      <div class="relative h-56 overflow-hidden bg-slate-950">
+        <img src="{{ st.hero_image }}" alt="Cultural region tile for {{ st.name }}" onerror="this.onerror=null; this.src='/static/images/placeholder.svg';" class="zoom-img w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
+        
+        <div class="absolute top-3 left-3">
+          <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-500 text-slate-950">
+            {{ st.region }} India
+          </span>
+        </div>
+
+        <div class="absolute bottom-3 left-3 right-3 text-white">
+          <p class="text-xs uppercase font-semibold text-amber-300 tracking-wider">
+            Capital: {{ st.capital }}
+          </p>
+          <h3 class="text-2xl font-bold font-heading line-clamp-1 group-hover:text-amber-300 transition-colors">
+            {{ st.name }}
+          </h3>
+        </div>
+      </div>
+
+      <div class="p-5 flex-grow flex flex-col justify-between space-y-4">
+        <div class="space-y-2">
+          <p class="text-xs text-slate-600 dark:text-slate-300 line-clamp-3 leading-relaxed">
+            {{ st.summary }}
+          </p>
+          <div class="text-[11px] text-slate-500 space-y-0.5 pt-1">
+            <p><strong class="text-slate-700 dark:text-slate-300">Languages:</strong> {{ st.languages|truncatechars:35 }}</p>
+            <p><strong class="text-slate-700 dark:text-slate-300">Highlights:</strong> {{ st.famous_for|truncatechars:35 }}</p>
+          </div>
+        </div>
+
+        <div class="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs">
+          <span class="text-slate-400">
+            {{ st.heritage_sites.count }} Sites • {{ st.festivals.count }} Festivals
+          </span>
+          <a href="{{ st.get_absolute_url }}" class="btn-gold px-4 py-1.5 rounded-full text-xs font-bold inline-flex items-center gap-1 shadow-sm">
+            <span>Explore State</span>
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+
+    </div>
+    {% endfor %}
+  </div>
+
+</div>
+{% endblock %}

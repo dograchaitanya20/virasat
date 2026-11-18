@@ -1,0 +1,361 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block title %}Virasat (विरासत) — The Living Digital Tapestry of India{% endblock %}
+
+{% block content %}
+<!-- ==========================================
+     CINEMATIC HERO SECTION
+     ========================================== -->
+<section class="relative min-h-[92vh] flex items-center justify-center overflow-hidden bg-slate-950 text-white">
+  <!-- Cinematic Background Layer with Heritage Motif & Image Overlay -->
+  <div class="absolute inset-0 z-0">
+    <img src="/static/images/heritage/taj-mahal.jpg" 
+         alt="Taj Mahal Agra Golden Hour Reflection" 
+         onerror="this.onerror=null; this.src='/static/images/placeholder.svg';"
+         class="w-full h-full object-cover object-center transform scale-105 filter brightness-75 contrast-110 motion-safe:animate-pulse-slow">
+    <!-- Gradient Overlays for luxe editorial depth -->
+    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-slate-950/30"></div>
+    <div class="absolute inset-0 bg-gradient-to-r from-slate-950/80 via-transparent to-slate-950/80"></div>
+    <div class="absolute inset-0 bg-jaali-subtle opacity-15"></div>
+  </div>
+
+  <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center space-y-8">
+    
+    <!-- Top Emblem Pill -->
+    <div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-amber-500/15 border border-amber-400/40 backdrop-blur-md text-amber-300 text-xs sm:text-sm font-medium tracking-widest uppercase">
+      <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+      <span>{% trans "National Digital Cultural Archive" %}</span>
+      <span class="text-amber-500/60">•</span>
+      <span class="font-devanagari">अतुल्य भारत</span>
+    </div>
+
+    <!-- Main Headline with Devanagari Calligraphy -->
+    <div class="space-y-4">
+      <h1 class="text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-amber-50 font-cinzel leading-none">
+        VIRASAT
+      </h1>
+      <p class="font-devanagari text-2xl sm:text-4xl md:text-5xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-400 to-yellow-200">
+        पाँच सहस्राब्दियों की जीवंत संस्कृति एवं विरासत
+      </p>
+      <p class="max-w-2xl mx-auto text-base sm:text-lg md:text-xl text-slate-300 font-light leading-relaxed">
+        {% trans "Journey across five millennia of monumental architecture, sacred rhythms, master crafts, and kaleidoscopic festivals that weave the living soul of Bharat." %}
+      </p>
+    </div>
+
+    <!-- CTAs & Interactive Buttons -->
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+      <a href="{% url 'heritage:list' %}" 
+         class="w-full sm:w-auto btn-gold px-8 py-3.5 rounded-full text-sm font-bold tracking-wide uppercase shadow-lg shadow-amber-500/25 flex items-center justify-center gap-2">
+        <span>{% trans "Explore Heritage" %}</span>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+      </a>
+      <a href="{% url 'core:map' %}" 
+         class="w-full sm:w-auto btn-outline-gold px-8 py-3.5 rounded-full text-sm font-semibold tracking-wide flex items-center justify-center gap-2 backdrop-blur-md">
+        <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
+        <span>{% trans "Interactive Map of India" %}</span>
+      </a>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="pt-8">
+      <a href="#stats-ribbon" class="inline-flex flex-col items-center text-xs text-amber-300/70 hover:text-amber-300 transition-colors">
+        <span class="text-[10px] tracking-widest uppercase mb-1">{% trans "Scroll to discover" %}</span>
+        <svg class="w-5 h-5 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+        </svg>
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ==========================================
+     ANIMATED COUNTERS RIBBON
+     ========================================== -->
+<section id="stats-ribbon" class="relative z-20 -mt-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-amber-500/30 rounded-3xl shadow-2xl p-6 sm:p-8">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center divide-y md:divide-y-0 md:divide-x divide-slate-200 dark:divide-slate-800">
+      
+      <div class="p-3">
+        <div class="text-3xl sm:text-5xl font-bold font-cinzel text-amber-600 dark:text-amber-400">{{ stats.states }}</div>
+        <p class="text-xs uppercase tracking-wider font-semibold text-slate-500 dark:text-slate-400 mt-1">{% trans "States & Union Territories" %}</p>
+      </div>
+
+      <div class="p-3">
+        <div class="text-3xl sm:text-5xl font-bold font-cinzel text-amber-600 dark:text-amber-400">{{ stats.sites }}</div>
+        <p class="text-xs uppercase tracking-wider font-semibold text-slate-500 dark:text-slate-400 mt-1">{% trans "World Heritage Monuments" %}</p>
+      </div>
+
+      <div class="p-3">
+        <div class="text-3xl sm:text-5xl font-bold font-cinzel text-amber-600 dark:text-amber-400">{{ stats.festivals }}</div>
+        <p class="text-xs uppercase tracking-wider font-semibold text-slate-500 dark:text-slate-400 mt-1">{% trans "Living Cultural Festivals" %}</p>
+      </div>
+
+      <div class="p-3">
+        <div class="text-3xl sm:text-5xl font-bold font-cinzel text-amber-600 dark:text-amber-400">{{ stats.arts }}</div>
+        <p class="text-xs uppercase tracking-wider font-semibold text-slate-500 dark:text-slate-400 mt-1">{% trans "Master Arts & Dances" %}</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================
+     HORIZONTALLY SCROLLING FEATURED HERITAGE CAROUSEL
+     ========================================== -->
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-12 space-y-6">
+  <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-amber-500/20 pb-4">
+    <div>
+      <span class="text-xs font-bold uppercase tracking-widest text-amber-600 dark:text-amber-400 font-cinzel">{% trans "Timeless Marvels" %}</span>
+      <h2 class="text-2xl sm:text-3xl font-bold font-heading text-slate-900 dark:text-amber-50">{% trans "Featured UNESCO World Heritage" %}</h2>
+    </div>
+    <div class="flex items-center gap-2">
+      <button id="carousel-prev" class="p-2 rounded-full border border-amber-500/30 text-amber-600 dark:text-amber-400 hover:bg-amber-500/10">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+      </button>
+      <button id="carousel-next" class="p-2 rounded-full border border-amber-500/30 text-amber-600 dark:text-amber-400 hover:bg-amber-500/10">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+      </button>
+      <a href="{% url 'heritage:list' %}" class="ml-2 text-xs font-semibold text-amber-600 dark:text-amber-400 hover:underline">{% trans "All Sites" %} &rarr;</a>
+    </div>
+  </div>
+
+  <!-- Swiper Carousel Container -->
+  <div class="swiper heritage-swiper py-4">
+    <div class="swiper-wrapper">
+      {% for site in featured_sites %}
+      <div class="swiper-slide w-80 sm:w-96">
+        <div class="heritage-card rounded-2xl overflow-hidden group h-full flex flex-col">
+          <div class="relative h-60 overflow-hidden">
+            <img src="{{ site.hero_image }}" alt="Heritage sanctuary {{ site.name }}" onerror="this.onerror=null; this.src='/static/images/placeholder.svg';" class="zoom-img w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-80"></div>
+            {% if site.unesco %}
+            <div class="absolute top-3 left-3">
+              <span class="badge-unesco">UNESCO World Heritage</span>
+            </div>
+            {% endif %}
+            <div class="absolute bottom-3 left-3 right-3 text-white">
+              <span class="text-xs uppercase font-medium text-amber-300 tracking-wider">{{ site.state.name }}</span>
+              <h3 class="text-xl font-bold font-heading line-clamp-1 text-white group-hover:text-amber-300 transition-colors">{{ site.name }}</h3>
+            </div>
+          </div>
+          <div class="p-4 flex-grow flex flex-col justify-between space-y-3 bg-white dark:bg-slate-900">
+            <p class="text-xs text-slate-600 dark:text-slate-300 line-clamp-2">{{ site.description }}</p>
+            <div class="flex items-center justify-between text-xs pt-2 border-t border-slate-100 dark:border-slate-800">
+              <span class="text-slate-400 font-medium">{{ site.era|truncatechars:26 }}</span>
+              <a href="{{ site.get_absolute_url }}" class="text-amber-600 dark:text-amber-400 font-bold hover:underline inline-flex items-center gap-1">
+                <span>{% trans "Explore" %}</span> &rarr;
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================
+     FESTIVAL SPOTLIGHT & THEMES
+     ========================================== -->
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-16">
+  
+  <!-- Section Title -->
+  <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-amber-500/20 pb-4">
+    <div>
+      <span class="text-xs font-bold uppercase tracking-widest text-amber-600 dark:text-amber-400 font-cinzel">{% trans "Current Spotlight" %}</span>
+      <h2 class="text-3xl sm:text-4xl font-bold font-heading text-slate-900 dark:text-amber-50">{% trans "Festival of the Season" %}</h2>
+    </div>
+    <a href="{% url 'festivals:list' %}" class="inline-flex items-center gap-2 text-sm font-semibold text-amber-600 dark:text-amber-400 hover:underline">
+      <span>{% trans "View All Festivals" %}</span>
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+    </a>
+  </div>
+
+  {% if festival_of_month %}
+  <!-- Featured Festival Card (Hero Spotlight) -->
+  <div class="heritage-card rounded-3xl overflow-hidden grid grid-cols-1 lg:grid-cols-12 bg-white dark:bg-slate-900 border border-amber-500/30">
+    <div class="lg:col-span-7 relative min-h-[340px] overflow-hidden">
+      <img src="{{ festival_of_month.hero_image }}" 
+           alt="Cultural celebration of {{ festival_of_month.name }}" 
+           onerror="this.onerror=null; this.src='/static/images/placeholder.svg';"
+           class="zoom-img w-full h-full object-cover">
+      <div class="absolute top-4 left-4">
+        <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-500 text-slate-950 shadow-md">
+          {% if is_current_month_festival %}
+            {% blocktrans with month=festival_of_month.get_month_display %}Happening in {{ month }}{% endblocktrans %}
+          {% else %}
+            {% blocktrans with month=festival_of_month.get_month_display %}Coming up next in {{ month }}{% endblocktrans %}
+          {% endif %}
+        </span>
+      </div>
+    </div>
+    <div class="lg:col-span-5 p-8 sm:p-10 flex flex-col justify-between space-y-6">
+      <div class="space-y-4">
+        <div class="flex items-center gap-2 text-xs text-amber-600 dark:text-amber-400 font-semibold uppercase tracking-wider">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          <span>{{ festival_of_month.approximate_dates }}</span>
+        </div>
+        <h3 class="text-3xl font-bold font-heading text-slate-900 dark:text-white">
+          {{ festival_of_month.name }}
+        </h3>
+        <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+          {{ festival_of_month.significance|truncatechars:260 }}
+        </p>
+        <div class="space-y-1.5 pt-1 text-xs text-slate-500 dark:text-slate-400">
+          <p><strong class="text-amber-600 dark:text-amber-400">{% trans "Festive Rituals" %}:</strong> {{ festival_of_month.rituals|truncatechars:100 }}</p>
+          <p><strong class="text-amber-600 dark:text-amber-400">{% trans "Sacred Foods" %}:</strong> {{ festival_of_month.food|truncatechars:100 }}</p>
+        </div>
+      </div>
+      <div>
+        <a href="{{ festival_of_month.get_absolute_url }}" class="btn-gold px-6 py-2.5 rounded-full text-xs font-bold inline-flex items-center gap-2">
+          <span>{% trans "Read Sacred Tradition" %}</span>
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Explore by Theme Grid -->
+  <div class="space-y-8 pt-4">
+    <div class="text-center space-y-2">
+      <span class="text-xs font-bold uppercase tracking-widest text-amber-600 dark:text-amber-400 font-cinzel">{% trans "Discover by Pillar" %}</span>
+      <h2 class="text-3xl sm:text-4xl font-bold font-heading text-slate-900 dark:text-amber-50">{% trans "Explore India's Cultural Dimensions" %}</h2>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      
+      <!-- Theme 1: UNESCO Monuments -->
+      <a href="{% url 'heritage:list' %}?category=Monument" class="heritage-card rounded-2xl p-6 group">
+        <div class="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+        </div>
+        <h3 class="text-xl font-bold font-heading text-slate-900 dark:text-slate-100 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">{% trans "Monuments & Forts" %}</h3>
+        <p class="text-xs text-slate-500 dark:text-slate-400 mt-2 leading-relaxed">{% trans "From the majestic bastions of Rajasthan to the stone chariot of Hampi, marvel at architectural masterstrokes." %}</p>
+        <div class="mt-4 text-xs font-semibold text-amber-600 dark:text-amber-400 flex items-center gap-1">
+          <span>{% blocktrans with count=stats.sites %}Explore {{ count }} Sites{% endblocktrans %}</span>
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        </div>
+      </a>
+
+      <!-- Theme 2: Classical Dance & Music -->
+      <a href="{% url 'arts:list' %}?category=Dance" class="heritage-card rounded-2xl p-6 group">
+        <div class="w-12 h-12 rounded-xl bg-rose-500/10 text-rose-600 dark:text-rose-400 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/></svg>
+        </div>
+        <h3 class="text-xl font-bold font-heading text-slate-900 dark:text-slate-100 group-hover:text-rose-600 dark:group-hover:text-rose-400 transition-colors">{% trans "Classical Arts" %}</h3>
+        <p class="text-xs text-slate-500 dark:text-slate-400 mt-2 leading-relaxed">{% trans "Experience Bharatanatyam, Kathak, Dhrupad, and Carnatic ragas codified in the ancient Natya Shastra." %}</p>
+        <div class="mt-4 text-xs font-semibold text-rose-600 dark:text-rose-400 flex items-center gap-1">
+          <span>{% blocktrans with count=stats.arts %}Discover {{ count }} Artforms{% endblocktrans %}</span>
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        </div>
+      </a>
+
+      <!-- Theme 3: Master Crafts & Textiles -->
+      <a href="{% url 'arts:list' %}?category=Craft" class="heritage-card rounded-2xl p-6 group">
+        <div class="w-12 h-12 rounded-xl bg-teal-500/10 text-teal-600 dark:text-teal-400 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/></svg>
+        </div>
+        <h3 class="text-xl font-bold font-heading text-slate-900 dark:text-slate-100 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">{% trans "Handicrafts & Textiles" %}</h3>
+        <p class="text-xs text-slate-500 dark:text-slate-400 mt-2 leading-relaxed">{% trans "Kalamkari hand-painted scrolls, Varanasi brocades, Madhubani folklore art, and Pashmina looms." %}</p>
+        <div class="mt-4 text-xs font-semibold text-teal-600 dark:text-teal-400 flex items-center gap-1">
+          <span>{% trans "Browse Crafts" %}</span>
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        </div>
+      </a>
+
+      <!-- Theme 4: Regional Cuisines -->
+      <a href="{% url 'cuisine:list' %}" class="heritage-card rounded-2xl p-6 group">
+        <div class="w-12 h-12 rounded-xl bg-orange-500/10 text-orange-600 dark:text-orange-400 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+        </div>
+        <h3 class="text-xl font-bold font-heading text-slate-900 dark:text-slate-100 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">{% trans "Culinary Heritage" %}</h3>
+        <p class="text-xs text-slate-500 dark:text-slate-400 mt-2 leading-relaxed">{% trans "Ayurvedic spice wisdom, royal Dum Biryanis, coastal fish curries, and comforting temple prasadam." %}</p>
+        <div class="mt-4 text-xs font-semibold text-orange-600 dark:text-orange-400 flex items-center gap-1">
+          <span>{% blocktrans with count=stats.dishes %}Taste {{ count }} Dishes{% endblocktrans %}</span>
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        </div>
+      </a>
+
+      <!-- Theme 5: Timeline of Civilization -->
+      <a href="{% url 'core:timeline' %}" class="heritage-card rounded-2xl p-6 group">
+        <div class="w-12 h-12 rounded-xl bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </div>
+        <h3 class="text-xl font-bold font-heading text-slate-900 dark:text-slate-100 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">{% trans "Historical Timeline" %}</h3>
+        <p class="text-xs text-slate-500 dark:text-slate-400 mt-2 leading-relaxed">{% trans "From the brick-paved streets of Harappa to modern constitutional India, follow the golden thread of time." %}</p>
+        <div class="mt-4 text-xs font-semibold text-purple-600 dark:text-purple-400 flex items-center gap-1">
+          <span>{% blocktrans with count=stats.events %}View {{ count }} Milestones{% endblocktrans %}</span>
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        </div>
+      </a>
+
+      <!-- Theme 6: Interactive Map Explorer -->
+      <a href="{% url 'core:map' %}" class="heritage-card rounded-2xl p-6 group">
+        <div class="w-12 h-12 rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
+        </div>
+        <h3 class="text-xl font-bold font-heading text-slate-900 dark:text-slate-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{% trans "State-by-State Map" %}</h3>
+        <p class="text-xs text-slate-500 dark:text-slate-400 mt-2 leading-relaxed">{% trans "Click any state to unveil its capital, official languages, monuments, folk dances, and sacred sites." %}</p>
+        <div class="mt-4 text-xs font-semibold text-blue-600 dark:text-blue-400 flex items-center gap-1">
+          <span>{% trans "Launch Atlas" %}</span>
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+</section>
+
+<!-- ==========================================
+     TEST YOUR INDIA IQ (QUIZ CTA BANNER)
+     ========================================== -->
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+  <div class="relative rounded-3xl overflow-hidden bg-gradient-to-r from-amber-700 via-amber-600 to-yellow-600 text-white p-8 sm:p-14 shadow-2xl">
+    <div class="absolute -right-10 -bottom-10 w-72 h-72 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
+    <div class="relative z-10 max-w-2xl space-y-4">
+      <span class="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-white/20 backdrop-blur-md">
+        {% trans "Interactive Challenge" %}
+      </span>
+      <h2 class="text-3xl sm:text-5xl font-bold font-heading">
+        {% trans "How Well Do You Know India's Heritage?" %}
+      </h2>
+      <p class="text-sm sm:text-base text-amber-100 leading-relaxed">
+        {% trans "Test your knowledge across history, ancient architecture, classical dance mudras, regional cuisines, and epics. Climb the national leaderboard and unlock your Heritage Certificate." %}
+      </p>
+      <div class="pt-4 flex flex-wrap gap-4">
+        <a href="{% url 'quiz:play' %}" class="px-8 py-3.5 rounded-full bg-slate-950 hover:bg-slate-900 text-amber-300 font-bold text-sm tracking-wide uppercase shadow-lg transition-transform hover:-translate-y-0.5">
+          {% trans "Start Heritage Quiz" %}
+        </a>
+        <a href="{% url 'quiz:leaderboard' %}" class="px-6 py-3.5 rounded-full border border-white/40 hover:bg-white/10 text-white font-semibold text-sm transition-colors">
+          {% trans "View Leaderboard" %}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    new Swiper('.heritage-swiper', {
+      slidesPerView: 'auto',
+      spaceBetween: 24,
+      grabCursor: true,
+      navigation: {
+        nextEl: '#carousel-next',
+        prevEl: '#carousel-prev',
+      },
+      breakpoints: {
+        320: { slidesPerView: 1.15, spaceBetween: 16 },
+        640: { slidesPerView: 2.2, spaceBetween: 20 },
+        1024: { slidesPerView: 3.2, spaceBetween: 24 },
+      }
+    });
+  });
+</script>
+{% endblock %}

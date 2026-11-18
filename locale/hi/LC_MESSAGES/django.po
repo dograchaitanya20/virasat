@@ -1,0 +1,333 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Virasat 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-17 14:00+0530\n"
+"PO-Revision-Date: 2026-11-17 14:00+0530\n"
+"Language: hi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Heritage"
+msgstr "धरोहर"
+
+msgid "Festivals"
+msgstr "त्योहार"
+
+msgid "Arts & Crafts"
+msgstr "कला एवं शिल्प"
+
+msgid "Cuisine"
+msgstr "व्यंजन"
+
+msgid "Map"
+msgstr "मानचित्र"
+
+msgid "Timeline"
+msgstr "कालक्रम"
+
+msgid "Stories"
+msgstr "कहानियाँ"
+
+msgid "Quiz"
+msgstr "प्रश्नोत्तरी"
+
+msgid "Sign In"
+msgstr "लॉग इन"
+
+msgid "Tapestry of India"
+msgstr "भारत की सांस्कृतिक छवि"
+
+msgid "Search Virasat..."
+msgstr "विरासत में खोजें..."
+
+msgid "National Digital Cultural Archive"
+msgstr "राष्ट्रीय डिजिटल सांस्कृतिक संग्रह"
+
+msgid ""
+"Journey across five millennia of monumental architecture, sacred rhythms, "
+"master crafts, and kaleidoscopic festivals that weave the living soul of "
+"Bharat."
+msgstr ""
+"पाँच सहस्राब्दियों की भव्य वास्तुकला, पावन लय, उत्कृष्ट शिल्प और बहुरंगी "
+"त्योहारों की यात्रा जो भारत की जीवंत आत्मा को रचती है।"
+
+msgid "Explore Heritage"
+msgstr "धरोहर देखें"
+
+msgid "Interactive Map of India"
+msgstr "भारत का इंटरएक्टिव मानचित्र"
+
+msgid "Scroll to discover"
+msgstr "खोजने के लिए नीचे स्क्रॉल करें"
+
+msgid "States & Union Territories"
+msgstr "राज्य एवं केंद्र शासित प्रदेश"
+
+msgid "World Heritage Monuments"
+msgstr "विश्व धरोहर स्मारक"
+
+msgid "Living Cultural Festivals"
+msgstr "जीवंत सांस्कृतिक त्योहार"
+
+msgid "Master Arts & Dances"
+msgstr "उत्कृष्ट कलाएं एवं नृत्य"
+
+msgid "Timeless Marvels"
+msgstr "कालजयी चमत्कार"
+
+msgid "Featured UNESCO World Heritage"
+msgstr "प्रमुख यूनेस्को विश्व धरोहर"
+
+msgid "All Sites"
+msgstr "सभी स्थल"
+
+msgid "Explore"
+msgstr "देखें"
+
+msgid "Current Spotlight"
+msgstr "वर्तमान आकर्षण"
+
+msgid "Festival of the Season"
+msgstr "ऋतु का त्योहार"
+
+msgid "View All Festivals"
+msgstr "सभी त्योहार देखें"
+
+msgid "Happening in %(month)s"
+msgstr "%(month)s में आयोजित"
+
+msgid "Coming up next in %(month)s"
+msgstr "आगे आने वाला: %(month)s"
+
+msgid "Festive Rituals"
+msgstr "उत्सव के अनुष्ठान"
+
+msgid "Sacred Foods"
+msgstr "पवित्र प्रसाद एवं व्यंजन"
+
+msgid "Read Sacred Tradition"
+msgstr "पवित्र परंपरा पढ़ें"
+
+msgid "Discover by Pillar"
+msgstr "आधार स्तंभों द्वारा अन्वेषण"
+
+msgid "Explore India's Cultural Dimensions"
+msgstr "भारत के सांस्कृतिक आयामों को जानें"
+
+msgid "Monuments & Forts"
+msgstr "स्मारक एवं किले"
+
+msgid ""
+"From the majestic bastions of Rajasthan to the stone chariot of Hampi, "
+"marvel at architectural masterstrokes."
+msgstr ""
+"राजस्थान के भव्य दुर्गों से लेकर हम्पी के प्रस्तर रथ तक, अद्भुत वास्तुकला का"
+" अनुभव करें।"
+
+msgid "Explore %(count)s Sites"
+msgstr "%(count)s स्थल देखें"
+
+msgid "Classical Arts"
+msgstr "शास्त्रीय कलाएं"
+
+msgid ""
+"Experience Bharatanatyam, Kathak, Dhrupad, and Carnatic ragas codified in "
+"the ancient Natya Shastra."
+msgstr ""
+"प्राचीन नाट्यशास्त्र में संहिताबद्ध भरतनाट्यम, कत्थक, ध्रुपद और कर्नाटक "
+"रागों का आनंद लें।"
+
+msgid "Discover %(count)s Artforms"
+msgstr "%(count)s कला रूप जानें"
+
+msgid "Handicrafts & Textiles"
+msgstr "हस्तशिल्प एवं वस्त्र"
+
+msgid ""
+"Kalamkari hand-painted scrolls, Varanasi brocades, Madhubani folklore art, "
+"and Pashmina looms."
+msgstr ""
+"कलमकारी के चित्रपट, वाराणसी के ब्रोकेड, मधुबनी लोककला और पश्मीना करघे।"
+
+msgid "Browse Crafts"
+msgstr "शिल्प देखें"
+
+msgid "Culinary Heritage"
+msgstr "खान-पान की धरोहर"
+
+msgid ""
+"Ayurvedic spice wisdom, royal Dum Biryanis, coastal fish curries, and "
+"comforting temple prasadam."
+msgstr ""
+"आयुर्वेदिक मसालों का ज्ञान, शाही दम बिरयानी, तटीय मछली करी और मंदिर का पावन "
+"महाप्रसाद।"
+
+msgid "Taste %(count)s Dishes"
+msgstr "%(count)s व्यंजनों का स्वाद लें"
+
+msgid "Historical Timeline"
+msgstr "ऐतिहासिक कालक्रम"
+
+msgid ""
+"From the brick-paved streets of Harappa to modern constitutional India, "
+"follow the golden thread of time."
+msgstr ""
+"हड़प्पा की ईंट-निर्मित गलियों से लेकर आधुनिक संवैधानिक भारत तक, काल के "
+"स्वर्णिम सूत्र को देखें।"
+
+msgid "View %(count)s Milestones"
+msgstr "%(count)s ऐतिहासिक पड़ाव देखें"
+
+msgid "State-by-State Map"
+msgstr "राज्य-दर-राज्य मानचित्र"
+
+msgid ""
+"Click any state to unveil its capital, official languages, monuments, folk "
+"dances, and sacred sites."
+msgstr ""
+"किसी भी राज्य पर क्लिक करके उसकी राजधानी, भाषाएं, स्मारक, लोकनृत्य और पावन "
+"स्थल जानें।"
+
+msgid "Launch Atlas"
+msgstr "मानचित्र खोलें"
+
+msgid "Interactive Challenge"
+msgstr "इंटरएक्टिव चुनौती"
+
+msgid "How Well Do You Know India's Heritage?"
+msgstr "आप भारत की धरोहर को कितना जानते हैं?"
+
+msgid ""
+"Test your knowledge across history, ancient architecture, classical dance "
+"mudras, regional cuisines, and epics. Climb the national leaderboard and "
+"unlock your Heritage Certificate."
+msgstr ""
+"इतिहास, प्राचीन वास्तुकला, शास्त्रीय नृत्य मुद्राओं, क्षेत्रीय व्यंजनों और "
+"महाकाव्यों में अपने ज्ञान का परीक्षण करें। राष्ट्रीय लीडरबोर्ड में आगे बढ़ें"
+" और अपना हेरिटेज प्रमाणपत्र प्राप्त करें।"
+
+msgid "Start Heritage Quiz"
+msgstr "हेरिटेज क्विज़ शुरू करें"
+
+msgid "View Leaderboard"
+msgstr "लीडरबोर्ड देखें"
+
+msgid "VIRASAT"
+msgstr "विरासत"
+
+msgid ""
+"A living digital chronicle preserving and celebrating five millennia of "
+"India's architectural marvels, timeless rituals, sacred arts, and culinary "
+"heritage."
+msgstr ""
+"भारत के स्थापत्य चमत्कारों, कालजयी परंपराओं, पवित्र कलाओं और पाक धरोहर के "
+"पाँच सहस्राब्दियों को सहेजने और उत्सव मनाने वाला जीवंत डिजिटल अभिलेख।"
+
+msgid "Maha Upanishad: The whole world is one family."
+msgstr "महोपनिषद्: संपूर्ण विश्व एक परिवार है।"
+
+msgid "UNESCO Sites"
+msgstr "यूनेस्को स्थल"
+
+msgid "Living Festivals"
+msgstr "जीवंत त्योहार"
+
+msgid "Classical Dances & Arts"
+msgstr "शास्त्रीय नृत्य एवं कलाएं"
+
+msgid "Regional Cuisines"
+msgstr "क्षेत्रीय व्यंजन"
+
+msgid "Interactive Map"
+msgstr "इंटरएक्टिव मानचित्र"
+
+msgid "History Timeline"
+msgstr "इतिहास कालक्रम"
+
+msgid "Discover"
+msgstr "खोजें"
+
+msgid "Heritage Quiz & Trivia"
+msgstr "धरोहर क्विज़ एवं सामान्य ज्ञान"
+
+msgid "Community Stories"
+msgstr "सामुदायिक कहानियाँ"
+
+msgid "Share Your Story"
+msgstr "अपनी कहानी साझा करें"
+
+msgid "About the Project"
+msgstr "परियोजना के बारे में"
+
+msgid "Feedback & Contact"
+msgstr "प्रतिक्रिया एवं संपर्क"
+
+msgid "Virasat Chronicles"
+msgstr "विरासत क्रॉनिकल्स"
+
+msgid ""
+"Receive weekly stories, archival spotlights, and cultural festival guides."
+msgstr ""
+"साप्ताहिक कहानियाँ, अभिलेखीय झलकियाँ और सांस्कृतिक उत्सव मार्गदर्शिका "
+"प्राप्त करें।"
+
+msgid "Subscribe to Chronicles"
+msgstr "क्रॉनिकल्स की सदस्यता लें"
+
+msgid "Built with reverence for India's living traditions."
+msgstr "भारत की जीवंत परंपराओं के प्रति श्रद्धा से निर्मित।"
+
+msgid "Privacy Policy"
+msgstr "गोपनीयता नीति"
+
+msgid "Attribution & Ethics"
+msgstr "श्रेय एवं नैतिकता"
+
+msgid "Top"
+msgstr "शीर्ष"
+
+msgid ""
+"Discover %(count)s UNESCO World Heritage Sites, rock-cut cave sanctuaries, "
+"soaring Dravidian temples, and invincible desert fortresses."
+msgstr ""
+"%(count)s यूनेस्को विश्व धरोहर स्थलों, शैलकृत गुफा मंदिरों, उत्तुंग द्रविड़ "
+"देवालयों और अजेय मरुस्थलीय दुर्गों की खोज करें।"
+
+msgid "January"
+msgstr "जनवरी"
+
+msgid "February"
+msgstr "फ़रवरी"
+
+msgid "March"
+msgstr "मार्च"
+
+msgid "April"
+msgstr "अप्रैल"
+
+msgid "May"
+msgstr "मई"
+
+msgid "June"
+msgstr "जून"
+
+msgid "July"
+msgstr "जुलाई"
+
+msgid "August"
+msgstr "अगस्त"
+
+msgid "September"
+msgstr "सितंबर"
+
+msgid "October"
+msgstr "अक्टूबर"
+
+msgid "November"
+msgstr "नवंबर"
+
+msgid "December"
+msgstr "दिसंबर"

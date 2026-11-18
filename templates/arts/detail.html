@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block title %}{{ art.name }} — Classical Heritage & Living Mastery | Virasat{% endblock %}
+
+{% block content %}
+<div class="relative min-h-[50vh] flex items-end overflow-hidden bg-slate-950 text-white">
+  <img src="{{ art.hero_image }}" alt="Artistic depiction of {{ art.name }}" onerror="this.onerror=null; this.src='/static/images/placeholder.svg';" class="absolute inset-0 w-full h-full object-cover filter brightness-75">
+  <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-transparent"></div>
+  {% if art.image_credit %}
+  <div class="absolute bottom-3 right-4 z-20 text-[11px] text-white/80 bg-black/50 backdrop-blur-sm px-3 py-1 rounded-full border border-white/10 shadow-sm">
+    Photo: {% if art.image_source_url %}<a href="{{ art.image_source_url }}" target="_blank" rel="noopener noreferrer" class="underline hover:text-amber-300">{{ art.image_credit }}</a>{% else %}{{ art.image_credit }}{% endif %}{% if art.image_license %} &bull; {{ art.image_license }}{% endif %}
+  </div>
+  {% endif %}
+  
+  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full space-y-4">
+    <div class="flex flex-wrap items-center gap-2 text-xs">
+      <a href="{% url 'core:home' %}" class="text-slate-400 hover:text-white">Home</a>
+      <span class="text-slate-600">/</span>
+      <a href="{% url 'arts:list' %}" class="text-slate-400 hover:text-white">Arts & Crafts</a>
+      <span class="text-slate-600">/</span>
+      <span class="text-amber-400 font-medium">{{ art.name }}</span>
+    </div>
+
+    <div class="flex flex-wrap items-center gap-3">
+      {% if art.unesco_intangible %}
+      <span class="badge-unesco text-xs">UNESCO Intangible Cultural Heritage</span>
+      {% endif %}
+      <span class="px-3 py-1 rounded-full text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/40">
+        {{ art.get_category_display }}
+      </span>
+      {% if art.origin_state %}
+      <span class="px-3 py-1 rounded-full text-xs font-semibold bg-slate-900/60 backdrop-blur-md text-slate-200">
+        📍 {{ art.origin_state.name }}
+      </span>
+      {% endif %}
+    </div>
+
+    <div class="space-y-2">
+      <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold font-heading text-white">
+        {{ art.name }}
+      </h1>
+      <p class="text-sm sm:text-base text-amber-100 max-w-2xl font-light">
+        A master discipline of aesthetic expression, codified wisdom, and unbroken oral transmission.
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+    
+    <div class="lg:col-span-8 space-y-10">
+      
+      <!-- Artistic Essence -->
+      <div class="space-y-4">
+        <h2 class="text-xs font-bold uppercase tracking-widest text-teal-600 dark:text-teal-400 font-cinzel">Artistic Essence</h2>
+        <div class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-sm sm:text-base text-slate-700 dark:text-slate-300 leading-relaxed space-y-3">
+          {{ art.description|linebreaks }}
+        </div>
+      </div>
+
+      <!-- Historical Lineage -->
+      <div class="space-y-4">
+        <h3 class="text-2xl font-bold font-heading text-slate-900 dark:text-white flex items-center gap-2">
+          <svg class="w-6 h-6 text-teal-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          Historical Lineage & Texts
+        </h3>
+        <div class="p-6 rounded-2xl bg-teal-500/10 border border-teal-500/20 text-xs sm:text-sm text-slate-800 dark:text-slate-200 leading-relaxed space-y-3">
+          {{ art.history|linebreaks }}
+        </div>
+      </div>
+
+      <!-- Living Legends & Gharanas -->
+      <div class="space-y-4 pt-4 border-t border-slate-200 dark:border-slate-800">
+        <h3 class="text-2xl font-bold font-heading text-slate-900 dark:text-white">Living Legends, Gurus & Master Craftsmen</h3>
+        <div class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+          <p class="font-medium text-amber-600 dark:text-amber-400 mb-2">Celebrated Practitioners & Living Traditions:</p>
+          {{ art.famous_practitioners }}
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 4 cols right -->
+    <div class="lg:col-span-4 space-y-8">
+      
+      <div class="heritage-card rounded-3xl p-6 space-y-5">
+        <h3 class="text-xs font-bold uppercase tracking-widest text-teal-600 dark:text-teal-400 font-cinzel">
+          Art Dossier
+        </h3>
+        <dl class="space-y-3 text-xs divide-y divide-slate-100 dark:divide-slate-800">
+          <div class="flex justify-between pt-2">
+            <dt class="text-slate-400">Category:</dt>
+            <dd class="font-semibold text-slate-900 dark:text-slate-100 text-right">{{ art.get_category_display }}</dd>
+          </div>
+          {% if art.origin_state %}
+          <div class="flex justify-between pt-3">
+            <dt class="text-slate-400">Geographic Origin:</dt>
+            <dd class="font-semibold text-slate-900 dark:text-slate-100 text-right">{{ art.origin_state.name }}</dd>
+          </div>
+          {% endif %}
+          <div class="flex justify-between pt-3">
+            <dt class="text-slate-400">UNESCO Recognition:</dt>
+            <dd class="font-semibold text-slate-900 dark:text-slate-100 text-right">
+              {% if art.unesco_intangible %}Inscribed Intangible{% else %}National Classical / Folk{% endif %}
+            </dd>
+          </div>
+        </dl>
+      </div>
+
+      {% if related_arts %}
+      <div class="space-y-4">
+        <h4 class="text-xs font-bold uppercase tracking-widest text-slate-500 font-cinzel">Related {{ art.category }} Arts</h4>
+        <div class="space-y-3">
+          {% for r_art in related_arts %}
+          <a href="{{ r_art.get_absolute_url }}" class="flex items-center gap-3 p-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-teal-500/40 transition-colors group">
+            <img src="{{ r_art.hero_image }}" alt="Artwork depiction of {{ r_art.name }}" onerror="this.onerror=null; this.src='/static/images/placeholder.svg';" class="w-14 h-14 rounded-xl object-cover">
+            <div class="min-w-0">
+              <h5 class="text-xs font-bold text-slate-900 dark:text-slate-100 group-hover:text-teal-600 dark:group-hover:text-teal-400 truncate">{{ r_art.name }}</h5>
+              <p class="text-[10px] text-slate-500">{% if r_art.origin_state %}{{ r_art.origin_state.name }}{% else %}Pan-India{% endif %}</p>
+            </div>
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+    </div>
+
+  </div>
+</div>
+{% endblock %}

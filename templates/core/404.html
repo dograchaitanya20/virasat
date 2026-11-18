@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block title %}404 — Lost in the Corridors of Time | Virasat{% endblock %}
+
+{% block content %}
+<div class="min-h-[70vh] flex items-center justify-center px-4 py-20 text-center">
+  <div class="max-w-lg mx-auto space-y-6">
+    <div class="w-24 h-24 mx-auto rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-500">
+      <span class="text-4xl font-cinzel font-bold">404</span>
+    </div>
+    <div class="space-y-2">
+      <h1 class="text-3xl font-bold font-heading text-slate-900 dark:text-amber-50">Corridor of Time Not Found</h1>
+      <p class="text-sm text-slate-600 dark:text-slate-400">
+        The monument, scripture, or relic you seek seems to have dissolved into the sands of antiquity, or may have been relocated.
+      </p>
+    </div>
+    <div class="pt-4 flex justify-center gap-4">
+      <a href="{% url 'core:home' %}" class="btn-gold px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-wide">
+        Return to Sanctuary
+      </a>
+      <a href="{% url 'heritage:list' %}" class="btn-outline-gold px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-wide">
+        Explore Sites
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,115 @@
+<div class="space-y-8" id="site-grid-container">
+  
+  <!-- Results Count Bar -->
+  <div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 border-b border-slate-200 dark:border-slate-800 pb-3">
+    <span>Showing <strong>{{ page_obj.start_index }}-{{ page_obj.end_index }}</strong> of <strong>{{ paginator.count }}</strong> heritage sites</span>
+    {% if search_query or selected_category or selected_state or selected_unesco %}
+    <a href="{% url 'heritage:list' %}" class="text-amber-600 dark:text-amber-400 hover:underline">Reset Filters &times;</a>
+    {% endif %}
+  </div>
+
+  <!-- Cards Grid -->
+  {% if sites %}
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    {% for site in sites %}
+    <div class="heritage-card rounded-2xl overflow-hidden flex flex-col group bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80">
+      
+      <!-- Top Image Layer -->
+      <div class="relative h-64 overflow-hidden bg-slate-950">
+        <img src="{{ site.hero_image }}" alt="Heritage site {{ site.name }}" onerror="this.onerror=null; this.src='/static/images/placeholder.svg';" class="zoom-img w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
+        
+        <!-- Badges -->
+        <div class="absolute top-3 left-3 flex flex-wrap gap-2">
+          {% if site.unesco %}
+          <span class="badge-unesco">UNESCO World Heritage</span>
+          {% endif %}
+        </div>
+        <div class="absolute top-3 right-3">
+          <span class="px-2.5 py-1 rounded-full text-[11px] font-semibold bg-slate-900/80 backdrop-blur-md text-amber-300 border border-amber-500/30">
+            {{ site.category }}
+          </span>
+        </div>
+
+        <!-- Location Bottom Overlay -->
+        <div class="absolute bottom-3 left-3 right-3 text-white">
+          <p class="text-xs uppercase font-semibold text-amber-300 tracking-wider flex items-center gap-1">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            {{ site.state.name }}
+          </p>
+          <h3 class="text-xl font-bold font-heading line-clamp-1 group-hover:text-amber-300 transition-colors">
+            {{ site.name }}
+          </h3>
+        </div>
+      </div>
+
+      <!-- Content Body -->
+      <div class="p-5 flex-grow flex flex-col justify-between space-y-4">
+        <div class="space-y-2">
+          <div class="flex items-center gap-2 text-[11px] text-slate-500 dark:text-slate-400">
+            <span>Era: <strong class="text-slate-700 dark:text-slate-300">{{ site.era|truncatechars:30 }}</strong></span>
+          </div>
+          <p class="text-xs text-slate-600 dark:text-slate-300 line-clamp-3 leading-relaxed">
+            {{ site.description }}
+          </p>
+        </div>
+
+        <div class="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+          <span class="text-[11px] text-amber-600 dark:text-amber-400 font-medium">
+            {% if site.built_year %}{{ site.built_year }}{% else %}Ancient{% endif %}
+          </span>
+          <a href="{{ site.get_absolute_url }}" class="btn-gold px-4 py-1.5 rounded-full text-xs font-bold inline-flex items-center gap-1.5 shadow-sm">
+            <span>View Chronicle</span>
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- Pagination Controls -->
+  {% if is_paginated %}
+  <div class="flex items-center justify-center gap-2 pt-6">
+    {% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}&q={{ search_query }}&category={{ selected_category }}&state={{ selected_state }}&unesco={{ selected_unesco }}"
+       hx-get="?page={{ page_obj.previous_page_number }}&q={{ search_query }}&category={{ selected_category }}&state={{ selected_state }}&unesco={{ selected_unesco }}"
+       hx-target="#site-grid-container"
+       hx-push-url="true"
+       class="px-3.5 py-2 rounded-xl text-xs font-semibold border border-slate-300 dark:border-slate-700 hover:bg-amber-500/10 transition-colors">
+      &larr; Previous
+    </a>
+    {% endif %}
+
+    <span class="text-xs text-slate-500 px-3">
+      Page {{ page_obj.number }} of {{ paginator.num_pages }}
+    </span>
+
+    {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}&q={{ search_query }}&category={{ selected_category }}&state={{ selected_state }}&unesco={{ selected_unesco }}"
+       hx-get="?page={{ page_obj.next_page_number }}&q={{ search_query }}&category={{ selected_category }}&state={{ selected_state }}&unesco={{ selected_unesco }}"
+       hx-target="#site-grid-container"
+       hx-push-url="true"
+       class="px-3.5 py-2 rounded-xl text-xs font-semibold border border-slate-300 dark:border-slate-700 hover:bg-amber-500/10 transition-colors">
+      Next &rarr;
+    </a>
+    {% endif %}
+  </div>
+  {% endif %}
+
+  {% else %}
+  <!-- Empty State -->
+  <div class="py-16 text-center space-y-3 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800">
+    <div class="w-12 h-12 mx-auto rounded-full bg-amber-500/10 text-amber-500 flex items-center justify-center">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+    </div>
+    <h3 class="text-lg font-bold font-heading">No Heritage Sites Found</h3>
+    <p class="text-xs text-slate-500 max-w-sm mx-auto">No monuments match the current search or filter combination. Try clearing your filters.</p>
+    <a href="{% url 'heritage:list' %}" class="btn-gold px-4 py-2 rounded-full text-xs font-bold inline-block">
+      View All Sites
+    </a>
+  </div>
+  {% endif %}
+
+</div>

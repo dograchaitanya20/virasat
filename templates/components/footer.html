@@ -1,0 +1,90 @@
+{% load i18n %}
+<footer class="relative bg-slate-950 text-slate-200 border-t border-amber-500/20 overflow-hidden pt-16 pb-12">
+  <!-- Subtle decorative mandala overlay background -->
+  <div class="absolute inset-0 opacity-5 pointer-events-none bg-jaali-subtle"></div>
+  <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-8 pb-12 border-b border-slate-800">
+      
+      <!-- Brand & Mission Column -->
+      <div class="lg:col-span-2 space-y-4">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-amber-600 to-amber-300 p-0.5 shadow-md">
+            <div class="w-full h-full bg-slate-950 rounded-full flex items-center justify-center">
+              <svg class="w-6 h-6 text-amber-400" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C12 2 9 6.5 9 10C9 11.66 10.34 13 12 13C13.66 13 15 11.66 15 10C15 6.5 12 2 12 2ZM5.5 8C4.12 8 3 9.12 3 10.5C3 13.5 7.5 16.5 7.5 16.5C7.5 16.5 6.5 14.5 6.5 13C6.5 11.9 7.4 11 8.5 11C8.85 11 9.18 11.09 9.47 11.26C8.57 10.3 8 9 8 8C8 8 6.5 8 5.5 8ZM18.5 8C17.5 8 16 8 16 8C16 9 15.43 10.3 14.53 11.26C14.82 11.09 15.15 11 15.5 11C16.6 11 17.5 11.9 17.5 13C17.5 14.5 16.5 16.5 16.5 16.5C16.5 16.5 21 13.5 21 10.5C21 9.12 19.88 8 18.5 8ZM12 14C9.5 14 4 15.5 4 19V21H20V19C20 15.5 14.5 14 12 14Z"/>
+              </svg>
+            </div>
+          </div>
+          <span class="font-cinzel text-2xl font-bold text-amber-100 tracking-wider">VIRASAT</span>
+        </div>
+        <p class="text-sm text-slate-300 max-w-sm leading-relaxed">
+          {% trans "A living digital chronicle preserving and celebrating five millennia of India's architectural marvels, timeless rituals, sacred arts, and culinary heritage." %}
+        </p>
+        <div class="pt-2">
+          <blockquote class="italic text-xs text-amber-300/90 border-l-2 border-amber-500/50 pl-3 py-1 font-serif">
+            "अयं निजः परो वेति गणना लघुचेतसाम् ।<br>
+            उदारचरितानां तु वसुधैव कुटुम्बकम् ॥"<br>
+            <span class="text-slate-300 not-italic text-[11px]">— {% trans "Maha Upanishad: The whole world is one family." %}</span>
+          </blockquote>
+        </div>
+      </div>
+
+      <!-- Explore Links -->
+      <div class="space-y-3">
+        <h3 class="text-xs font-semibold uppercase tracking-widest text-amber-400 font-cinzel">{% trans "Explore" %}</h3>
+        <ul class="space-y-2 text-sm">
+          <li><a href="{% url 'heritage:list' %}" class="text-slate-300 hover:text-amber-300 transition-colors">{% trans "UNESCO Sites" %}</a></li>
+          <li><a href="{% url 'festivals:list' %}" class="text-slate-300 hover:text-amber-300 transition-colors">{% trans "Living Festivals" %}</a></li>
+          <li><a href="{% url 'arts:list' %}" class="text-slate-300 hover:text-amber-300 transition-colors">{% trans "Classical Dances & Arts" %}</a></li>
+          <li><a href="{% url 'cuisine:list' %}" class="text-slate-300 hover:text-amber-300 transition-colors">{% trans "Regional Cuisines" %}</a></li>
+          <li><a href="{% url 'core:map' %}" class="text-slate-300 hover:text-amber-300 transition-colors">{% trans "Interactive Map" %}</a></li>
+          <li><a href="{% url 'core:timeline' %}" class="text-slate-300 hover:text-amber-300 transition-colors">{% trans "History Timeline" %}</a></li>
+        </ul>
+      </div>
+
+      <!-- Community & Learning -->
+      <div class="space-y-3">
+        <h3 class="text-xs font-semibold uppercase tracking-widest text-amber-400 font-cinzel">{% trans "Discover" %}</h3>
+        <ul class="space-y-2 text-sm">
+          <li><a href="{% url 'quiz:play' %}" class="text-slate-300 hover:text-amber-300 transition-colors">{% trans "Heritage Quiz & Trivia" %}</a></li>
+          <li><a href="{% url 'stories:list' %}" class="text-slate-300 hover:text-amber-300 transition-colors">{% trans "Community Stories" %}</a></li>
+          <li><a href="{% url 'stories:submit' %}" class="text-slate-300 hover:text-amber-300 transition-colors">{% trans "Share Your Story" %}</a></li>
+          <li><a href="{% url 'core:about' %}" class="text-slate-300 hover:text-amber-300 transition-colors">{% trans "About the Project" %}</a></li>
+          <li><a href="{% url 'core:contact' %}" class="text-slate-300 hover:text-amber-300 transition-colors">{% trans "Feedback & Contact" %}</a></li>
+        </ul>
+      </div>
+
+      <!-- Newsletter Signup -->
+      <div class="space-y-3">
+        <h3 class="text-xs font-semibold uppercase tracking-widest text-amber-400 font-cinzel">{% trans "Virasat Chronicles" %}</h3>
+        <p class="text-xs text-slate-300">{% trans "Receive weekly stories, archival spotlights, and cultural festival guides." %}</p>
+        <form hx-post="{% url 'core:newsletter_signup' %}" hx-swap="outerHTML" class="space-y-2">
+          {% csrf_token %}
+          <div class="relative">
+            <input type="email" name="email" required placeholder="your.email@heritage.in"
+                   class="w-full text-xs px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-slate-100 placeholder-slate-400 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400 transition-all">
+          </div>
+          <button type="submit" class="w-full btn-gold text-xs py-2 rounded-xl">
+            {% trans "Subscribe to Chronicles" %}
+          </button>
+        </form>
+      </div>
+
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="mt-8 pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-300 gap-4">
+      <p>&copy; {% now "Y" %} Virasat Digital Foundation. {% trans "Built with reverence for India's living traditions." %}</p>
+      <div class="flex items-center gap-6">
+        <a href="{% url 'core:privacy' %}" class="text-slate-300 hover:text-amber-300 transition-colors">{% trans "Privacy Policy" %}</a>
+        <a href="{% url 'core:about' %}" class="text-slate-300 hover:text-amber-300 transition-colors">{% trans "Attribution & Ethics" %}</a>
+        <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="text-slate-300 hover:text-amber-400 flex items-center gap-1 transition-colors">
+          <span>{% trans "Top" %}</span>
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</footer>

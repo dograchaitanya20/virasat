@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block title %}My Saved Collection — Virasat{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
+  
+  <div class="text-center space-y-2 max-w-2xl mx-auto">
+    <span class="text-xs font-bold uppercase tracking-widest text-amber-600 dark:text-amber-400 font-cinzel">Personal Treasury</span>
+    <h1 class="text-4xl font-bold font-heading text-slate-900 dark:text-amber-50">
+      My Saved Collection
+    </h1>
+    <p class="text-xs sm:text-sm text-slate-500">
+      Monuments, sacred celebrations, crafts, and regional delicacies you've bookmarked for your cultural journey.
+    </p>
+  </div>
+
+  {% if bookmarks %}
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {% for b in bookmarks %}
+    {% with item=b.content_object %}
+    {% if item %}
+    <div class="heritage-card rounded-2xl overflow-hidden flex flex-col justify-between p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+      <div class="space-y-3">
+        {% if item.hero_image %}
+        <div class="h-44 rounded-xl overflow-hidden relative">
+          <img src="{{ item.hero_image }}" alt="Photograph of {{ item.name }}" onerror="this.onerror=null; this.src='/static/images/placeholder.svg';" class="w-full h-full object-cover">
+          <span class="absolute top-2 right-2 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-slate-900/80 text-amber-300">
+            {{ b.content_type.name|title }}
+          </span>
+        </div>
+        {% endif %}
+        <div>
+          <h3 class="text-lg font-bold font-heading text-slate-900 dark:text-white">{{ item.name }}</h3>
+          <p class="text-xs text-slate-500 line-clamp-2 mt-1">{{ item.description|default:item.story|default:item.significance }}</p>
+        </div>
+      </div>
+
+      <div class="pt-4 border-t border-slate-100 dark:border-slate-800 mt-4 flex items-center justify-between">
+        <a href="{{ item.get_absolute_url }}" class="text-xs font-bold text-amber-600 dark:text-amber-400 hover:underline">
+          View Relic &rarr;
+        </a>
+        <button hx-post="{% url 'accounts:toggle_bookmark' %}?content_type={{ b.content_type.model }}&object_id={{ b.object_id }}"
+                hx-target="closest .heritage-card"
+                hx-swap="outerHTML swap:0.3s"
+                class="text-[11px] text-rose-500 hover:underline">
+          Remove
+        </button>
+      </div>
+    </div>
+    {% endif %}
+    {% endwith %}
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="py-20 text-center space-y-4 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 max-w-xl mx-auto p-8">
+    <div class="w-16 h-16 mx-auto rounded-full bg-amber-500/10 text-amber-500 flex items-center justify-center">
+      <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/></svg>
+    </div>
+    <h3 class="text-xl font-bold font-heading text-slate-900 dark:text-white">Your Collection is Empty</h3>
+    <p class="text-xs text-slate-500 leading-relaxed">
+      Browse through India's monuments, festivals, crafts, and recipes, and click the bookmark button to assemble your personal archive.
+    </p>
+    <a href="{% url 'heritage:list' %}" class="btn-gold px-6 py-2 rounded-full text-xs font-bold inline-block">
+      Explore Heritage Sites
+    </a>
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}

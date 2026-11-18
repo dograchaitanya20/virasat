@@ -1,0 +1,197 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block title %}Interactive Cultural Atlas & Heritage Map of India — Virasat{% endblock %}
+
+{% block content %}
+<div class="relative min-h-[calc(100vh-80px)] flex flex-col" x-data="{ panelOpen: false, selectedStateName: '' }">
+  
+  <!-- Map Top Bar: Controls & Region Pills -->
+  <div class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-amber-500/20 px-4 sm:px-8 py-3.5 flex flex-wrap items-center justify-between gap-4 z-20">
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 rounded-full bg-amber-500/10 text-amber-500 flex items-center justify-center">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
+      </div>
+      <div>
+        <h1 class="text-lg font-bold font-heading text-slate-900 dark:text-amber-50 leading-tight">Interactive Atlas of India</h1>
+        <p class="text-[11px] text-slate-500">Click any state pin to reveal monuments, festivals, crafts and regional dishes</p>
+      </div>
+    </div>
+
+    <!-- Quick State Jump Selector -->
+    <div class="flex items-center gap-2">
+      <label class="text-xs text-slate-400 hidden sm:inline">Jump to State:</label>
+      <select id="state-select"
+              onchange="if(this.value) { fetchStatePanel(this.value); }"
+              class="px-3 py-1.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-medium text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-amber-500">
+        <option value="">Select a State / UT...</option>
+        {% for st in states %}
+        <option value="{{ st.slug }}">{{ st.name }} ({{ st.region }})</option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+
+  <!-- Map Layout Area -->
+  <div class="relative flex-grow min-h-[600px] w-full flex overflow-hidden">
+    
+    <!-- Full-screen Leaflet Map -->
+    <div id="india-heritage-map" class="w-full h-full min-h-[600px] z-10"></div>
+
+    <!-- Map Floating Legend -->
+    <div class="absolute bottom-6 left-6 z-20 hidden md:block bg-slate-950/85 backdrop-blur-md p-3.5 rounded-2xl border border-amber-500/30 text-white text-[11px] space-y-2 shadow-2xl">
+      <p class="font-bold text-amber-400 font-cinzel">Cultural Geographies</p>
+      <div class="grid grid-cols-2 gap-x-3 gap-y-1">
+        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span> North India</span>
+        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span> South India</span>
+        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-blue-400"></span> East India</span>
+        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-orange-400"></span> West India</span>
+        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-purple-400"></span> Central India</span>
+        <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-rose-400"></span> Northeast</span>
+      </div>
+    </div>
+
+    <!-- HTMX State Details Slide-out Panel Drawer -->
+    <div x-show="panelOpen"
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="translate-x-full"
+         x-transition:enter-end="translate-x-0"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="translate-x-0"
+         x-transition:leave-end="translate-x-full"
+         x-cloak
+         class="absolute top-0 right-0 bottom-0 w-full sm:w-96 md:w-[440px] z-30 shadow-2xl border-l border-amber-500/30 bg-white dark:bg-slate-900">
+      <div id="state-details-panel" class="h-full">
+        <!-- Initial Loader / Content swapped here via HTMX -->
+        <div class="p-8 text-center text-slate-400 space-y-3 pt-24">
+          <svg class="animate-spin h-8 w-8 mx-auto text-amber-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+          </svg>
+          <p class="text-xs">Consulting Archival Atlas...</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  // State coordinates and metadata for map pins
+  const statesData = [
+    {% for st in states %}
+    {
+      name: "{{ st.name|escapejs }}",
+      slug: "{{ st.slug }}",
+      lat: {{ st.lat }},
+      lng: {{ st.lng }},
+      region: "{{ st.region }}",
+      capital: "{{ st.capital|escapejs }}",
+      sitesCount: {{ st.heritage_sites.count }},
+      festivalsCount: {{ st.festivals.count }},
+      famousFor: "{{ st.famous_for|escapejs }}"
+    },
+    {% endfor %}
+  ];
+
+  const regionColors = {
+    'North': '#D4AF37',      // Gold
+    'South': '#10B981',      // Emerald
+    'East': '#3B82F6',       // Blue
+    'West': '#F97316',       // Orange
+    'Central': '#8B5CF6',    // Purple
+    'Northeast': '#EC4899',  // Rose
+    'UT': '#EAB308'
+  };
+
+  let map;
+
+  function fetchStatePanel(slug) {
+    const alpineEl = Alpine.$data(document.querySelector('[x-data]'));
+    alpineEl.panelOpen = true;
+
+    htmx.ajax('GET', `/states/${slug}/panel/`, {
+      target: '#state-details-panel',
+      swap: 'innerHTML'
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // Initialize Leaflet Map centered on India
+    map = L.map('india-heritage-map', {
+      center: [22.8, 80.5],
+      zoom: 5,
+      minZoom: 4,
+      maxZoom: 9,
+      maxBounds: [[6.0, 68.0], [38.0, 98.0]]
+    });
+
+    // Free OpenStreetMap tiles (no API key needed).
+    // Dark mode is done with a CSS filter on the tile layer.
+    const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      maxZoom: 19
+    }).addTo(map);
+
+    let usingFallback = false;
+    tiles.on('tileerror', function() {
+      if (!usingFallback) {
+        usingFallback = true;
+        console.warn('OpenStreetMap tile loading failed, falling back to Esri World Street Map');
+        tiles.setUrl('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}');
+      }
+    });
+
+    function applyMapTheme() {
+      const container = tiles.getContainer();
+      if (!container) return;
+      const isDark = document.documentElement.classList.contains('dark');
+      container.style.filter = isDark
+        ? 'invert(1) hue-rotate(180deg) brightness(0.85) contrast(0.9)'
+        : 'none';
+    }
+    applyMapTheme();
+    // Re-apply whenever the dark/light toggle changes the <html> class
+    new MutationObserver(applyMapTheme).observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+
+    // Plot States Pins
+    statesData.forEach(state => {
+      const color = regionColors[state.region] || '#D4AF37';
+
+      const customMarker = L.divIcon({
+        className: 'state-map-marker',
+        html: `
+          <div style="background-color: ${color}; width: 28px; height: 28px; border-radius: 50%; border: 3px solid #0F172A; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.5); cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.25)'" onmouseout="this.style.transform='scale(1)'">
+            <span style="color: #0F172A; font-size: 10px; font-weight: 800;">${state.sitesCount || '•'}</span>
+          </div>
+        `,
+        iconSize: [28, 28],
+        iconAnchor: [14, 14]
+      });
+
+      const marker = L.marker([state.lat, state.lng], { icon: customMarker }).addTo(map);
+
+      // Tooltip
+      marker.bindTooltip(`
+        <div style="font-family: sans-serif; padding: 2px;">
+          <strong style="color: #111827; font-size: 12px;">${state.name}</strong><br>
+          <span style="font-size: 10px; color: #4B5563;">Capital: ${state.capital}</span><br>
+          <span style="font-size: 10px; color: #D97706; font-weight: 600;">${state.sitesCount} Sites • ${state.festivalsCount} Festivals</span>
+        </div>
+      `, { offset: [0, -10] });
+
+      // Click opens the HTMX side panel
+      marker.on('click', () => {
+        map.setView([state.lat, state.lng], 6, { animate: true });
+        fetchStatePanel(state.slug);
+      });
+    });
+  });
+</script>
+{% endblock %}

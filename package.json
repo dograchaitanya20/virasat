@@ -1,0 +1,12 @@
+{
+  "name": "virasat",
+  "version": "1.0.0",
+  "description": "Virasat (विरासत) - Indian Cultural Heritage Showcase",
+  "scripts": {
+    "build:css": "tailwindcss -i ./static/css/tailwind.input.css -o ./static/css/tailwind.css --minify",
+    "watch:css": "tailwindcss -i ./static/css/tailwind.input.css -o ./static/css/tailwind.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.17"
+  }
+}

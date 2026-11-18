@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block title %}Contact & Inquiries — Virasat{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-10">
+  <div class="text-center space-y-3">
+    <span class="text-xs font-bold uppercase tracking-widest text-amber-600 dark:text-amber-400 font-cinzel">Get in Touch</span>
+    <h1 class="text-4xl font-bold font-heading text-slate-900 dark:text-amber-50">Connect with the Archivists</h1>
+    <p class="text-sm text-slate-600 dark:text-slate-400">
+      Have a question about a historical monument, corrections for our records, or a cultural story to propose?
+    </p>
+  </div>
+
+  {% if success_message %}
+  <div class="p-6 rounded-2xl bg-emerald-900/30 border border-emerald-500/50 text-emerald-200 text-center space-y-2">
+    <svg class="w-10 h-10 mx-auto text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+    <p class="text-sm font-medium">{{ success_message }}</p>
+  </div>
+  {% else %}
+  <form method="post" class="heritage-card rounded-3xl p-8 sm:p-10 space-y-6">
+    {% csrf_token %}
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <div class="space-y-1.5">
+        <label class="text-xs font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300">Your Full Name</label>
+        <input type="text" name="name" required placeholder="e.g. Ananya Sharma"
+               class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500">
+      </div>
+      <div class="space-y-1.5">
+        <label class="text-xs font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300">Email Address</label>
+        <input type="email" name="email" required placeholder="ananya@example.com"
+               class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500">
+      </div>
+    </div>
+
+    <div class="space-y-1.5">
+      <label class="text-xs font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300">Inquiry Subject</label>
+      <input type="text" name="subject" required placeholder="Historical archive question, suggestion, or partnership"
+             class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500">
+    </div>
+
+    <div class="space-y-1.5">
+      <label class="text-xs font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300">Message / Heritage Details</label>
+      <textarea name="message" rows="5" required placeholder="Share your inquiry or archival context with our team..."
+                class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"></textarea>
+    </div>
+
+    <button type="submit" class="w-full btn-gold py-3 rounded-xl text-sm font-bold tracking-wide uppercase">
+      Transmit Message
+    </button>
+  </form>
+  {% endif %}
+</div>
+{% endblock %}

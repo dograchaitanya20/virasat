@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block title %}UNESCO World Heritage Sites & Monuments of India — Virasat{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
+  
+  <!-- Page Header -->
+  <div class="text-center space-y-3 max-w-3xl mx-auto">
+    <span class="text-xs font-bold uppercase tracking-widest text-amber-600 dark:text-amber-400 font-cinzel">Living Relics</span>
+    <h1 class="text-4xl sm:text-5xl font-bold font-heading text-slate-900 dark:text-amber-50">
+      Heritage Sites & Monuments
+    </h1>
+    <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
+      {% blocktrans with count=total_sites_count %}Discover {{ count }} UNESCO World Heritage Sites, rock-cut cave sanctuaries, soaring Dravidian temples, and invincible desert fortresses.{% endblocktrans %}
+    </p>
+  </div>
+
+  <!-- Filter & Search Controls Bar -->
+  <div class="bg-white dark:bg-slate-900 rounded-3xl p-5 sm:p-6 shadow-xl border border-amber-500/20 space-y-5">
+    
+    <!-- Top Row: Search & Dropdowns -->
+    <form id="filter-form"
+          autocomplete="off"
+          hx-get="{% url 'heritage:list' %}"
+          hx-target="#site-grid-container"
+          hx-trigger="input changed delay:250ms, change"
+          hx-push-url="true"
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <input type="hidden" name="category" value="{{ selected_category }}">
+      
+      <!-- Text Search -->
+      <div class="relative">
+        <label class="sr-only">Search Sites</label>
+        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        </div>
+        <input type="text"
+               name="q"
+               value="{{ search_query }}"
+               placeholder="Search site, ruler, era..."
+               class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-amber-500">
+      </div>
+
+      <!-- State Dropdown -->
+      <div>
+        <select name="state"
+                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-amber-500">
+          <option value="">All States & Regions</option>
+          {% for st in states %}
+          <option value="{{ st.slug }}" {% if selected_state == st.slug %}selected{% endif %}>
+            {{ st.name }} ({{ st.region }})
+          </option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <!-- Category Dropdown -->
+      <div>
+        <select name="category"
+                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-amber-500">
+          <option value="">All Architectural Categories</option>
+          {% for cat in categories %}
+          <option value="{{ cat }}" {% if selected_category == cat %}selected{% endif %}>
+            {{ cat }}
+          </option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <!-- UNESCO Filter Checkbox / Toggle -->
+      <div class="flex items-center justify-between sm:justify-start gap-3 px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700">
+        <label class="flex items-center gap-2 cursor-pointer text-xs font-semibold text-slate-700 dark:text-slate-200">
+          <input type="checkbox"
+                 name="unesco"
+                 value="1"
+                 {% if selected_unesco == '1' %}checked{% endif %}
+                 class="w-4 h-4 text-amber-600 rounded focus:ring-amber-500 border-slate-400">
+          <span>UNESCO Sites Only</span>
+        </label>
+        <span class="badge-unesco text-[10px]">UNESCO</span>
+      </div>
+
+    </form>
+
+    <!-- Category Pill Shortcuts -->
+    <div class="flex flex-wrap items-center gap-2 pt-2 border-t border-slate-100 dark:border-slate-800">
+      <span class="text-xs font-semibold text-slate-400 mr-1">Quick Filter:</span>
+      <a href="{% url 'heritage:list' %}"
+         class="px-3 py-1 rounded-full text-xs font-medium {% if not selected_category %}btn-gold{% else %}bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300{% endif %}">
+        All
+      </a>
+      {% for cat in categories %}
+      <a href="{% url 'heritage:list' %}?category={{ cat }}"
+         class="px-3 py-1 rounded-full text-xs font-medium {% if selected_category == cat %}btn-gold{% else %}bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-amber-500/10{% endif %}">
+        {{ cat }}
+      </a>
+      {% endfor %}
+    </div>
+
+  </div>
+
+  <!-- Dynamic Content Target (HTMX Swap) -->
+  <div id="site-grid-container">
+    {% include 'heritage/partials/site_grid.html' %}
+  </div>
+
+</div>
+{% endblock %}

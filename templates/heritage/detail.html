@@ -1,0 +1,298 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block title %}{{ site.name }} — Historical Chronicle & Visiting Guide | Virasat{% endblock %}
+
+{% block extra_head %}
+<!-- JSON-LD Structured Data for Heritage Site / Monument -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Place",
+  "name": "{{ site.name|escapejs }}",
+  "description": "{{ site.description|escapejs }}",
+  "image": "{{ site.hero_image }}",
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": {{ site.lat }},
+    "longitude": {{ site.lng }}
+  },
+  "address": {
+    "@type": "PostalAddress",
+    "addressRegion": "{{ site.state.name|escapejs }}",
+    "addressCountry": "IN"
+  }
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<!-- ==========================================
+     HERO BANNER
+     ========================================== -->
+<div class="relative min-h-[55vh] flex items-end overflow-hidden bg-slate-950 text-white">
+  <img src="{{ site.hero_image }}" alt="Architectural photograph of {{ site.name }}" onerror="this.onerror=null; this.src='/static/images/placeholder.svg';" class="absolute inset-0 w-full h-full object-cover filter brightness-75">
+  <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-transparent"></div>
+  {% if site.image_credit %}
+  <div class="absolute bottom-3 right-4 z-20 text-[11px] text-white/80 bg-black/50 backdrop-blur-sm px-3 py-1 rounded-full border border-white/10 shadow-sm">
+    Photo: {% if site.image_source_url %}<a href="{{ site.image_source_url }}" target="_blank" rel="noopener noreferrer" class="underline hover:text-amber-300">{{ site.image_credit }}</a>{% else %}{{ site.image_credit }}{% endif %}{% if site.image_license %} &bull; {{ site.image_license }}{% endif %}
+  </div>
+  {% endif %}
+  
+  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full space-y-4">
+    <!-- Breadcrumb & Badges -->
+    <div class="flex flex-wrap items-center gap-2 text-xs">
+      <a href="{% url 'core:home' %}" class="text-slate-400 hover:text-white">Home</a>
+      <span class="text-slate-600">/</span>
+      <a href="{% url 'heritage:list' %}" class="text-slate-400 hover:text-white">Heritage Sites</a>
+      <span class="text-slate-600">/</span>
+      <span class="text-amber-400 font-medium">{{ site.name }}</span>
+    </div>
+
+    <div class="flex flex-wrap items-center gap-3">
+      {% if site.unesco %}
+      <span class="badge-unesco text-xs">UNESCO World Heritage Site (Inscribed {{ site.unesco_year }})</span>
+      {% endif %}
+      <span class="px-3 py-1 rounded-full text-xs font-semibold bg-white/20 backdrop-blur-md text-amber-200">
+        {{ site.category }}
+      </span>
+      <span class="px-3 py-1 rounded-full text-xs font-semibold bg-slate-900/60 backdrop-blur-md text-slate-200">
+        📍 {{ site.state.name }}
+      </span>
+    </div>
+
+    <!-- Title & Subtitle -->
+    <div class="space-y-2">
+      <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold font-heading text-white">
+        {{ site.name }}
+      </h1>
+      <p class="text-sm sm:text-base text-amber-100 max-w-2xl font-light">
+        {{ site.era }} {% if site.built_by %}• Built under {{ site.built_by }}{% endif %}
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- ==========================================
+     MAIN CONTENT & SIDEBAR
+     ========================================== -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+    
+    <!-- Left Column: Narratives & Galleries (8 Cols) -->
+    <div class="lg:col-span-8 space-y-10">
+      
+      <!-- Overview Statement -->
+      <div class="space-y-4">
+        <h2 class="text-xs font-bold uppercase tracking-widest text-amber-600 dark:text-amber-400 font-cinzel">The Chronicle</h2>
+        <p class="text-lg sm:text-xl font-serif text-slate-800 dark:text-slate-200 leading-relaxed italic border-l-4 border-amber-500 pl-4 py-1">
+          "{{ site.description }}"
+        </p>
+      </div>
+
+      <!-- Historical Narrative -->
+      <div class="space-y-4">
+        <h3 class="text-2xl font-bold font-heading text-slate-900 dark:text-white">Historical Origins & Evolution</h3>
+        <div class="text-sm sm:text-base text-slate-700 dark:text-slate-300 leading-relaxed space-y-4">
+          {{ site.history|linebreaks }}
+        </div>
+      </div>
+
+      <!-- Architectural Style & Construction -->
+      {% if site.architecture_style %}
+      <div class="p-6 rounded-2xl bg-amber-500/10 border border-amber-500/20 space-y-3">
+        <h3 class="text-lg font-bold font-heading text-amber-800 dark:text-amber-200 flex items-center gap-2">
+          <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+          Architectural Marvel: {{ site.architecture_style }}
+        </h3>
+        <p class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+          The structural composition reflects quintessential {{ site.architecture_style }} motifs, employing local stones and ancient geometric acoustics designed to withstand seismic shifts across centuries.
+        </p>
+      </div>
+      {% endif %}
+
+      <!-- Gallery Images with GLightbox -->
+      {% if gallery_images %}
+      <div class="space-y-4 pt-4">
+        <h3 class="text-2xl font-bold font-heading text-slate-900 dark:text-white">Archival Photo Gallery</h3>
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+          {% for img in gallery_images %}
+          <a href="{{ img.image_url }}" class="glightbox block rounded-xl overflow-hidden group shadow-md" data-gallery="site-gallery" data-title="{{ img.caption|default:site.name }}">
+            <div class="h-40 overflow-hidden relative">
+              <img src="{{ img.image_url }}" alt="{{ img.caption|default:site.name }}" onerror="this.onerror=null; this.src='/static/images/placeholder.svg';" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <div class="absolute inset-0 bg-slate-950/20 group-hover:bg-transparent transition-colors"></div>
+              <div class="absolute bottom-2 right-2 p-1.5 rounded-full bg-slate-900/80 text-white text-xs opacity-0 group-hover:opacity-100 transition-opacity">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"/></svg>
+              </div>
+            </div>
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Visiting Information & Guidelines -->
+      <div class="space-y-4 pt-4 border-t border-slate-200 dark:border-slate-800">
+        <h3 class="text-2xl font-bold font-heading text-slate-900 dark:text-white flex items-center gap-2">
+          <svg class="w-6 h-6 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          Visiting Guidelines & Travel Tips
+        </h3>
+        <div class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed space-y-3">
+          {{ site.visiting_info|linebreaks }}
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right Column: Metadata Card, Interactive Mini-Map, Bookmark & Related (4 Cols) -->
+    <div class="lg:col-span-4 space-y-8">
+      
+      <!-- Key Facts Card -->
+      <div class="heritage-card rounded-3xl p-6 space-y-6">
+        <h3 class="text-xs font-bold uppercase tracking-widest text-amber-600 dark:text-amber-400 font-cinzel">
+          Archival Dossier
+        </h3>
+        
+        <dl class="space-y-4 text-xs divide-y divide-slate-100 dark:divide-slate-800">
+          <div class="flex justify-between pt-2">
+            <dt class="text-slate-400">Location:</dt>
+            <dd class="font-semibold text-slate-900 dark:text-slate-100 text-right">{{ site.state.name }}</dd>
+          </div>
+          <div class="flex justify-between pt-3">
+            <dt class="text-slate-400">Category:</dt>
+            <dd class="font-semibold text-slate-900 dark:text-slate-100 text-right">{{ site.category }}</dd>
+          </div>
+          <div class="flex justify-between pt-3">
+            <dt class="text-slate-400">Historical Era:</dt>
+            <dd class="font-semibold text-slate-900 dark:text-slate-100 text-right">{{ site.era }}</dd>
+          </div>
+          {% if site.built_by %}
+          <div class="flex justify-between pt-3">
+            <dt class="text-slate-400">Commissioned By:</dt>
+            <dd class="font-semibold text-slate-900 dark:text-slate-100 text-right">{{ site.built_by }}</dd>
+          </div>
+          {% endif %}
+          {% if site.built_year %}
+          <div class="flex justify-between pt-3">
+            <dt class="text-slate-400">Construction Date:</dt>
+            <dd class="font-semibold text-slate-900 dark:text-slate-100 text-right">{{ site.built_year }}</dd>
+          </div>
+          {% endif %}
+          <div class="flex justify-between pt-3">
+            <dt class="text-slate-400">Coordinates:</dt>
+            <dd class="font-mono text-slate-700 dark:text-slate-300 text-right">{{ site.lat|floatformat:4 }}° N, {{ site.lng|floatformat:4 }}° E</dd>
+          </div>
+        </dl>
+
+        <!-- Bookmark & Share Action -->
+        <div class="pt-2 flex flex-col gap-3">
+          {% if user.is_authenticated %}
+          <button hx-post="{% url 'accounts:toggle_bookmark' %}?content_type=heritagesite&object_id={{ site.id }}"
+                  hx-swap="outerHTML"
+                  class="w-full py-2.5 rounded-xl text-xs font-bold border {% if is_bookmarked %}bg-amber-500/20 text-amber-600 dark:text-amber-300 border-amber-500/50{% else %}border-amber-500 text-amber-600 dark:text-amber-400 hover:bg-amber-500/10{% endif %} flex items-center justify-center gap-2 transition-colors">
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg>
+            <span>{% if is_bookmarked %}Saved in My Collection{% else %}Save to My Collection{% endif %}</span>
+          </button>
+          {% else %}
+          <a href="{% url 'accounts:login' %}" class="w-full py-2.5 rounded-xl text-xs font-bold border border-amber-500/40 text-amber-600 dark:text-amber-400 hover:bg-amber-500/10 flex items-center justify-center gap-2 text-center">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/></svg>
+            <span>Sign In to Bookmark Relic</span>
+          </a>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Embedded Leaflet Map -->
+      <div class="heritage-card rounded-3xl p-5 space-y-3">
+        <h4 class="text-xs font-bold uppercase tracking-widest text-slate-500 font-cinzel">Cartographic Location</h4>
+        <div id="site-mini-map" class="h-60 rounded-2xl overflow-hidden border border-slate-300 dark:border-slate-700"></div>
+        <p class="text-[11px] text-slate-500 text-center">Precise geographic positioning on Indian national datum</p>
+      </div>
+
+      <!-- Related Sites in Region -->
+      {% if related_sites %}
+      <div class="space-y-4">
+        <h4 class="text-xs font-bold uppercase tracking-widest text-slate-500 font-cinzel">Related Cultural Relics</h4>
+        <div class="space-y-3">
+          {% for r_site in related_sites %}
+          <a href="{{ r_site.get_absolute_url }}" class="flex items-center gap-3 p-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-amber-500/40 transition-colors group">
+            <img src="{{ r_site.hero_image }}" alt="Photograph of {{ r_site.name }}" onerror="this.onerror=null; this.src='/static/images/placeholder.svg';" class="w-14 h-14 rounded-xl object-cover">
+            <div class="min-w-0">
+              <h5 class="text-xs font-bold text-slate-900 dark:text-slate-100 group-hover:text-amber-600 dark:group-hover:text-amber-400 truncate">{{ r_site.name }}</h5>
+              <p class="text-[10px] text-slate-500">{{ r_site.state.name }} • {{ r_site.category }}</p>
+            </div>
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+    </div>
+
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Initialize GLightbox
+    const lightbox = GLightbox({
+      touchNavigation: true,
+      loop: true,
+      autoplayVideos: false
+    });
+
+    // Initialize Leaflet Mini-Map
+    const lat = {{ site.lat }};
+    const lng = {{ site.lng }};
+    if (lat && lng && document.getElementById('site-mini-map')) {
+      const map = L.map('site-mini-map', {
+        scrollWheelZoom: false,
+        attributionControl: false
+      }).setView([lat, lng], 12);
+
+      const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        maxZoom: 18,
+      }).addTo(map);
+
+      let usingFallback = false;
+      tiles.on('tileerror', function() {
+        if (!usingFallback) {
+          usingFallback = true;
+          console.warn('OpenStreetMap tile loading failed, falling back to Esri World Street Map');
+          tiles.setUrl('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}');
+        }
+      });
+
+      function applyMapTheme() {
+        const container = tiles.getContainer();
+        if (!container) return;
+        const isDark = document.documentElement.classList.contains('dark');
+        container.style.filter = isDark
+          ? 'invert(1) hue-rotate(180deg) brightness(0.85) contrast(0.9)'
+          : 'none';
+      }
+      applyMapTheme();
+      new MutationObserver(applyMapTheme).observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class']
+      });
+
+      // Custom Heritage Gold Pin Marker
+      const goldIcon = L.divIcon({
+        className: 'custom-gold-marker',
+        html: `<div style="background-color: #D4AF37; width: 22px; height: 22px; border-radius: 50%; border: 3px solid #111827; box-shadow: 0 4px 10px rgba(0,0,0,0.5);"></div>`,
+        iconSize: [22, 22],
+        iconAnchor: [11, 11]
+      });
+
+      L.marker([lat, lng], { icon: goldIcon })
+        .addTo(map)
+        .bindPopup(`<strong>{{ site.name|escapejs }}</strong><br>{{ site.state.name|escapejs }}`)
+        .openPopup();
+    }
+  });
+</script>
+{% endblock %}

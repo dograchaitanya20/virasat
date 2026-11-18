@@ -1,0 +1,170 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block title %}{{ state.name }} — Cultural Treasury, Monuments, Festivals & Cuisine | Virasat{% endblock %}
+
+{% block content %}
+<div class="relative min-h-[50vh] flex items-end overflow-hidden bg-slate-950 text-white">
+  <img src="{{ state.hero_image }}" alt="Cultural region tile for {{ state.name }}" onerror="this.onerror=null; this.src='/static/images/placeholder.svg';" class="absolute inset-0 w-full h-full object-cover filter brightness-75">
+  <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-transparent"></div>
+  
+  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full space-y-4">
+    <div class="flex flex-wrap items-center gap-2 text-xs">
+      <a href="{% url 'core:home' %}" class="text-slate-400 hover:text-white">Home</a>
+      <span class="text-slate-600">/</span>
+      <a href="{% url 'states:list' %}" class="text-slate-400 hover:text-white">States</a>
+      <span class="text-slate-600">/</span>
+      <span class="text-amber-400 font-medium">{{ state.name }}</span>
+    </div>
+
+    <div class="flex flex-wrap items-center gap-3">
+      <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-500 text-slate-950">
+        {{ state.region }} India
+      </span>
+      <span class="px-3 py-1 rounded-full text-xs font-semibold bg-slate-900/60 backdrop-blur-md text-slate-200">
+        Capital: {{ state.capital }}
+      </span>
+      <span class="px-3 py-1 rounded-full text-xs font-semibold bg-slate-900/60 backdrop-blur-md text-slate-200">
+        Best Season: {{ state.best_time_to_visit }}
+      </span>
+    </div>
+
+    <div class="space-y-2">
+      <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold font-heading text-white">
+        {{ state.name }}
+      </h1>
+      <p class="text-sm sm:text-base text-amber-100 max-w-2xl font-light">
+        Spoken Tongues: {{ state.languages }} • Renowned for {{ state.famous_for }}
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
+  
+  <!-- Cultural Overview Section -->
+  <div class="heritage-card rounded-3xl p-8 sm:p-10 space-y-4">
+    <h2 class="text-xs font-bold uppercase tracking-widest text-amber-600 dark:text-amber-400 font-cinzel">The Heritage Chronicle</h2>
+    <p class="text-base sm:text-lg text-slate-700 dark:text-slate-300 leading-relaxed font-serif">
+      {{ state.summary }}
+    </p>
+  </div>
+
+  <!-- Monuments & Sites Section -->
+  {% if sites %}
+  <div class="space-y-6">
+    <div class="flex items-center justify-between border-b border-amber-500/20 pb-3">
+      <h3 class="text-2xl font-bold font-heading text-slate-900 dark:text-white flex items-center gap-2">
+        <span>🏛️ Architectural Monuments & Sanctuaries</span>
+        <span class="text-xs px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-600 dark:text-amber-400">{{ sites.count }}</span>
+      </h3>
+      <a href="{% url 'heritage:list' %}?state={{ state.slug }}" class="text-xs font-semibold text-amber-600 dark:text-amber-400 hover:underline">View in Heritage &rarr;</a>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {% for site in sites %}
+      <a href="{{ site.get_absolute_url }}" class="heritage-card rounded-2xl overflow-hidden group bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+        <div class="h-48 overflow-hidden relative">
+          <img src="{{ site.hero_image }}" alt="Heritage site {{ site.name }}" onerror="this.onerror=null; this.src='/static/images/placeholder.svg';" class="zoom-img w-full h-full object-cover">
+          {% if site.unesco %}
+          <div class="absolute top-2 left-2"><span class="badge-unesco text-[10px]">UNESCO</span></div>
+          {% endif %}
+        </div>
+        <div class="p-4 space-y-2">
+          <h4 class="text-base font-bold font-heading text-slate-900 dark:text-white group-hover:text-amber-600 transition-colors">{{ site.name }}</h4>
+          <p class="text-xs text-slate-500 line-clamp-2">{{ site.description }}</p>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Living Festivals Section -->
+  {% if festivals %}
+  <div class="space-y-6">
+    <div class="flex items-center justify-between border-b border-amber-500/20 pb-3">
+      <h3 class="text-2xl font-bold font-heading text-slate-900 dark:text-white flex items-center gap-2">
+        <span>🎉 Sacred Festivals & Celebrations</span>
+        <span class="text-xs px-2.5 py-0.5 rounded-full bg-rose-500/20 text-rose-600 dark:text-rose-400">{{ festivals.count }}</span>
+      </h3>
+      <a href="{% url 'festivals:list' %}?state={{ state.slug }}" class="text-xs font-semibold text-rose-600 dark:text-rose-400 hover:underline">View in Festivals &rarr;</a>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {% for fest in festivals %}
+      <a href="{{ fest.get_absolute_url }}" class="heritage-card rounded-2xl overflow-hidden group bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+        <div class="h-48 overflow-hidden relative">
+          <img src="{{ fest.hero_image }}" alt="Cultural festival {{ fest.name }}" onerror="this.onerror=null; this.src='/static/images/placeholder.svg';" class="zoom-img w-full h-full object-cover">
+          <div class="absolute top-2 right-2"><span class="px-2 py-0.5 rounded-full text-[10px] bg-slate-900/80 text-amber-300">{{ fest.get_month_display }}</span></div>
+        </div>
+        <div class="p-4 space-y-2">
+          <h4 class="text-base font-bold font-heading text-slate-900 dark:text-white group-hover:text-rose-600 transition-colors">{{ fest.name }}</h4>
+          <p class="text-xs text-slate-500 line-clamp-2">{{ fest.significance }}</p>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Classical Arts Section -->
+  {% if arts %}
+  <div class="space-y-6">
+    <div class="flex items-center justify-between border-b border-amber-500/20 pb-3">
+      <h3 class="text-2xl font-bold font-heading text-slate-900 dark:text-white flex items-center gap-2">
+        <span>🎭 Master Crafts, Dances & Music</span>
+        <span class="text-xs px-2.5 py-0.5 rounded-full bg-teal-500/20 text-teal-600 dark:text-teal-400">{{ arts.count }}</span>
+      </h3>
+      <a href="{% url 'arts:list' %}?state={{ state.slug }}" class="text-xs font-semibold text-teal-600 dark:text-teal-400 hover:underline">View in Arts &rarr;</a>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {% for art in arts %}
+      <a href="{{ art.get_absolute_url }}" class="heritage-card rounded-2xl overflow-hidden group bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+        <div class="h-48 overflow-hidden relative">
+          <img src="{{ art.hero_image }}" alt="Traditional art {{ art.name }}" onerror="this.onerror=null; this.src='/static/images/placeholder.svg';" class="zoom-img w-full h-full object-cover">
+          <div class="absolute top-2 right-2"><span class="px-2 py-0.5 rounded-full text-[10px] bg-slate-900/80 text-amber-300">{{ art.get_category_display }}</span></div>
+        </div>
+        <div class="p-4 space-y-2">
+          <h4 class="text-base font-bold font-heading text-slate-900 dark:text-white group-hover:text-teal-600 transition-colors">{{ art.name }}</h4>
+          <p class="text-xs text-slate-500 line-clamp-2">{{ art.description }}</p>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Regional Cuisine Section -->
+  {% if dishes %}
+  <div class="space-y-6">
+    <div class="flex items-center justify-between border-b border-amber-500/20 pb-3">
+      <h3 class="text-2xl font-bold font-heading text-slate-900 dark:text-white flex items-center gap-2">
+        <span>🍲 Regional Flavours & Traditional Recipes</span>
+        <span class="text-xs px-2.5 py-0.5 rounded-full bg-orange-500/20 text-orange-600 dark:text-orange-400">{{ dishes.count }}</span>
+      </h3>
+      <a href="{% url 'cuisine:list' %}?state={{ state.slug }}" class="text-xs font-semibold text-orange-600 dark:text-orange-400 hover:underline">View in Cuisine &rarr;</a>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {% for dish in dishes %}
+      <a href="{{ dish.get_absolute_url }}" class="heritage-card rounded-2xl overflow-hidden group bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+        <div class="h-48 overflow-hidden relative">
+          <img src="{{ dish.hero_image }}" alt="Regional dish {{ dish.name }}" onerror="this.onerror=null; this.src='/static/images/placeholder.svg';" class="zoom-img w-full h-full object-cover">
+          <div class="absolute top-2 left-2">
+            {% if dish.veg_or_non_veg == 'veg' %}
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-950/90 text-emerald-300">Veg</span>
+            {% else %}
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-950/90 text-rose-300">Non-Veg</span>
+            {% endif %}
+          </div>
+        </div>
+        <div class="p-4 space-y-2">
+          <h4 class="text-base font-bold font-heading text-slate-900 dark:text-white group-hover:text-orange-600 transition-colors">{{ dish.name }}</h4>
+          <p class="text-xs text-slate-500 line-clamp-2">{{ dish.story }}</p>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}

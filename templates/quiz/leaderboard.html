@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block title %}National Heritage IQ Leaderboard — Virasat{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
+  
+  <div class="text-center space-y-3">
+    <span class="text-xs font-bold uppercase tracking-widest text-amber-600 dark:text-amber-400 font-cinzel">Hall of Scholars</span>
+    <h1 class="text-4xl sm:text-5xl font-bold font-heading text-slate-900 dark:text-amber-50">
+      National Heritage Leaderboard
+    </h1>
+    <p class="text-xs sm:text-sm text-slate-500">
+      Top scholars and explorers ranked by quiz score accuracy and speed across India.
+    </p>
+  </div>
+
+  <div class="heritage-card rounded-3xl overflow-hidden bg-white dark:bg-slate-900 border border-amber-500/30 shadow-2xl">
+    
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-xs sm:text-sm">
+        <thead class="bg-slate-50 dark:bg-slate-950 text-slate-400 font-cinzel uppercase text-[10px] tracking-wider border-b border-slate-200 dark:border-slate-800">
+          <tr>
+            <th class="py-3.5 px-6">Rank</th>
+            <th class="py-3.5 px-6">Scholar / Explorer</th>
+            <th class="py-3.5 px-6 text-center">Score</th>
+            <th class="py-3.5 px-6 text-center">Accuracy</th>
+            <th class="py-3.5 px-6 text-right">Time Taken</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
+          {% for sc in scores %}
+          <tr class="hover:bg-amber-500/5 transition-colors">
+            <td class="py-4 px-6 font-bold">
+              {% if forloop.counter == 1 %}
+              <span class="text-lg">🥇</span>
+              {% elif forloop.counter == 2 %}
+              <span class="text-lg">🥈</span>
+              {% elif forloop.counter == 3 %}
+              <span class="text-lg">🥉</span>
+              {% else %}
+              <span class="text-slate-400">#{{ forloop.counter }}</span>
+              {% endif %}
+            </td>
+            <td class="py-4 px-6 font-bold text-slate-900 dark:text-slate-100">
+              <div class="flex items-center gap-2">
+                <div class="w-7 h-7 rounded-full bg-amber-500/20 text-amber-600 font-bold text-xs flex items-center justify-center shrink-0">
+                  {{ sc.player_name|slice:":1"|upper }}
+                </div>
+                <span>{{ sc.player_name }}</span>
+              </div>
+            </td>
+            <td class="py-4 px-6 text-center font-bold text-amber-600 dark:text-amber-400">
+              {{ sc.score }} / {{ sc.total_questions }}
+            </td>
+            <td class="py-4 px-6 text-center">
+              <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+                {{ sc.percentage }}%
+              </span>
+            </td>
+            <td class="py-4 px-6 text-right font-mono text-slate-500">
+              {{ sc.time_taken_seconds }}s
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="5" class="py-8 text-center text-slate-400 text-xs">
+              No scores recorded yet. Be the first to make history!
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <div class="text-center pt-2">
+    <a href="{% url 'quiz:play' %}" class="btn-gold px-8 py-3 rounded-full text-xs font-bold uppercase tracking-wider inline-block">
+      Challenge the Leaderboard
+    </a>
+  </div>
+
+</div>
+{% endblock %}

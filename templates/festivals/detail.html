@@ -1,0 +1,179 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block title %}{{ festival.name }} — Sacred Rituals, Legends & Festive Foods | Virasat{% endblock %}
+
+{% block extra_head %}
+<!-- JSON-LD Structured Data for Living Festival -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Event",
+  "name": "{{ festival.name|escapejs }}",
+  "description": "{{ festival.significance|escapejs }}",
+  "image": "{{ festival.hero_image }}",
+  "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+  "eventStatus": "https://schema.org/EventScheduled",
+  "location": {
+    "@type": "Place",
+    "name": "Pan-India",
+    "address": {
+      "@type": "PostalAddress",
+      "addressCountry": "IN"
+    }
+  }
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Banner -->
+<div class="relative min-h-[50vh] flex items-end overflow-hidden bg-slate-950 text-white">
+  <img src="{{ festival.hero_image }}" alt="Visual depiction of {{ festival.name }}" onerror="this.onerror=null; this.src='/static/images/placeholder.svg';" class="absolute inset-0 w-full h-full object-cover filter brightness-75">
+  <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-transparent"></div>
+  {% if festival.image_credit %}
+  <div class="absolute bottom-3 right-4 z-20 text-[11px] text-white/80 bg-black/50 backdrop-blur-sm px-3 py-1 rounded-full border border-white/10 shadow-sm">
+    Photo: {% if festival.image_source_url %}<a href="{{ festival.image_source_url }}" target="_blank" rel="noopener noreferrer" class="underline hover:text-amber-300">{{ festival.image_credit }}</a>{% else %}{{ festival.image_credit }}{% endif %}{% if festival.image_license %} &bull; {{ festival.image_license }}{% endif %}
+  </div>
+  {% endif %}
+  
+  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full space-y-4">
+    <div class="flex flex-wrap items-center gap-2 text-xs">
+      <a href="{% url 'core:home' %}" class="text-slate-400 hover:text-white">Home</a>
+      <span class="text-slate-600">/</span>
+      <a href="{% url 'festivals:list' %}" class="text-slate-400 hover:text-white">Festivals</a>
+      <span class="text-slate-600">/</span>
+      <span class="text-amber-400 font-medium">{{ festival.name }}</span>
+    </div>
+
+    <div class="flex flex-wrap items-center gap-3">
+      <span class="px-3 py-1 rounded-full text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/40">
+        {{ festival.religion_or_type }}
+      </span>
+      <span class="px-3 py-1 rounded-full text-xs font-semibold bg-slate-900/60 backdrop-blur-md text-slate-200">
+        📅 {{ festival.get_month_display }}
+      </span>
+      <span class="px-3 py-1 rounded-full text-xs font-semibold bg-slate-900/60 backdrop-blur-md text-slate-200">
+        {{ festival.approximate_dates }}
+      </span>
+    </div>
+
+    <div class="space-y-2">
+      <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold font-heading text-white">
+        {{ festival.name }}
+      </h1>
+      <p class="text-sm sm:text-base text-amber-100 max-w-2xl font-light">
+        A sacred celebration honoring cosmic renewal and living community brotherhood.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- Main Body -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+    
+    <!-- 8 cols left -->
+    <div class="lg:col-span-8 space-y-10">
+      
+      <!-- Spiritual Significance -->
+      <div class="space-y-4">
+        <h2 class="text-xs font-bold uppercase tracking-widest text-amber-600 dark:text-amber-400 font-cinzel">Cosmic Meaning</h2>
+        <div class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-sm sm:text-base text-slate-700 dark:text-slate-300 leading-relaxed space-y-3">
+          {{ festival.significance|linebreaks }}
+        </div>
+      </div>
+
+      <!-- Sacred Rituals & Ceremonies -->
+      <div class="space-y-4">
+        <h3 class="text-2xl font-bold font-heading text-slate-900 dark:text-white flex items-center gap-2">
+          <svg class="w-6 h-6 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+          Sacred Rites, Music & Processions
+        </h3>
+        <div class="p-6 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-xs sm:text-sm text-slate-800 dark:text-slate-200 leading-relaxed space-y-3">
+          {{ festival.rituals|linebreaks }}
+        </div>
+      </div>
+
+      <!-- Mythological Legend & Story -->
+      <div class="space-y-4">
+        <h3 class="text-2xl font-bold font-heading text-slate-900 dark:text-white">Ancient Folklore & Mythological Origins</h3>
+        <div class="text-sm sm:text-base text-slate-700 dark:text-slate-300 leading-relaxed space-y-3">
+          {{ festival.story|linebreaks }}
+        </div>
+      </div>
+
+      <!-- Festive Cuisine & Sacred Offerings -->
+      <div class="space-y-4 pt-4 border-t border-slate-200 dark:border-slate-800">
+        <h3 class="text-2xl font-bold font-heading text-slate-900 dark:text-white flex items-center gap-2">
+          <svg class="w-6 h-6 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
+          Traditional Festive Flavours & Prasadam
+        </h3>
+        <div class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+          {{ festival.food|linebreaks }}
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 4 cols right -->
+    <div class="lg:col-span-4 space-y-8">
+      
+      <!-- Festival Dossier -->
+      <div class="heritage-card rounded-3xl p-6 space-y-5">
+        <h3 class="text-xs font-bold uppercase tracking-widest text-amber-600 dark:text-amber-400 font-cinzel">
+          Sacred Calendar Overview
+        </h3>
+        <dl class="space-y-3 text-xs divide-y divide-slate-100 dark:divide-slate-800">
+          <div class="flex justify-between pt-2">
+            <dt class="text-slate-400">Solar / Lunar Month:</dt>
+            <dd class="font-semibold text-slate-900 dark:text-slate-100 text-right">{{ festival.get_month_display }}</dd>
+          </div>
+          <div class="flex justify-between pt-3">
+            <dt class="text-slate-400">Duration / Tithi:</dt>
+            <dd class="font-semibold text-slate-900 dark:text-slate-100 text-right">{{ festival.approximate_dates }}</dd>
+          </div>
+          <div class="flex justify-between pt-3">
+            <dt class="text-slate-400">Tradition:</dt>
+            <dd class="font-semibold text-slate-900 dark:text-slate-100 text-right">{{ festival.religion_or_type }}</dd>
+          </div>
+        </dl>
+
+        <!-- Associated States -->
+        {% if associated_states %}
+        <div class="pt-4 border-t border-slate-100 dark:border-slate-800 space-y-2">
+          <h4 class="text-xs font-semibold text-slate-700 dark:text-slate-300">Celebrated Widely In:</h4>
+          <div class="flex flex-wrap gap-1.5">
+            {% for st in associated_states %}
+            <a href="{{ st.get_absolute_url }}" class="px-2.5 py-1 rounded-full text-[11px] bg-slate-100 dark:bg-slate-800 hover:bg-amber-500/10 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+              {{ st.name }}
+            </a>
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- Related Celebrations -->
+      {% if related_festivals %}
+      <div class="space-y-4">
+        <h4 class="text-xs font-bold uppercase tracking-widest text-slate-500 font-cinzel">Seasonal Celebrations</h4>
+        <div class="space-y-3">
+          {% for r_fest in related_festivals %}
+          <a href="{{ r_fest.get_absolute_url }}" class="flex items-center gap-3 p-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-amber-500/40 transition-colors group">
+            <img src="{{ r_fest.hero_image }}" alt="Festival celebration of {{ r_fest.name }}" onerror="this.onerror=null; this.src='/static/images/placeholder.svg';" class="w-14 h-14 rounded-xl object-cover">
+            <div class="min-w-0">
+              <h5 class="text-xs font-bold text-slate-900 dark:text-slate-100 group-hover:text-amber-600 dark:group-hover:text-amber-400 truncate">{{ r_fest.name }}</h5>
+              <p class="text-[10px] text-slate-500">{{ r_fest.approximate_dates }}</p>
+            </div>
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+    </div>
+
+  </div>
+</div>
+{% endblock %}

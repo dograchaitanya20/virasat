@@ -1,0 +1,117 @@
+<div class="space-y-8" id="festival-grid-container">
+  
+  <div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 border-b border-slate-200 dark:border-slate-800 pb-3">
+    <span>Showing <strong>{{ festivals|length }}</strong> of <strong>{{ paginator.count }}</strong> festivals</span>
+    {% if search_query or selected_month or selected_religion or selected_state %}
+    <a href="{% url 'festivals:list' %}" class="text-amber-600 dark:text-amber-400 hover:underline">Reset Filters &times;</a>
+    {% endif %}
+  </div>
+
+  {% if festivals %}
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    {% for fest in festivals %}
+    <div class="heritage-card rounded-2xl overflow-hidden flex flex-col group bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800/80">
+      
+      <!-- Top Image Layer -->
+      <div class="relative h-60 overflow-hidden bg-slate-950">
+        <img src="{{ fest.hero_image }}" alt="Cultural festival {{ fest.name }}" onerror="this.onerror=null; this.src='/static/images/placeholder.svg';" class="zoom-img w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
+        
+        <!-- Badges -->
+        <div class="absolute top-3 left-3 flex flex-wrap gap-2">
+          {% if fest.month == current_month %}
+          <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-amber-500 text-slate-950 animate-pulse">
+            Happening This Month
+          </span>
+          {% else %}
+          <span class="px-2.5 py-1 rounded-full text-[11px] font-semibold bg-slate-900/80 text-amber-300 border border-amber-500/30">
+            {{ fest.get_month_display|truncatechars:18 }}
+          </span>
+          {% endif %}
+        </div>
+
+        <div class="absolute bottom-3 left-3 right-3 text-white">
+          <p class="text-xs uppercase font-semibold text-amber-300 tracking-wider">
+            {{ fest.approximate_dates }}
+          </p>
+          <h3 class="text-xl font-bold font-heading line-clamp-1 group-hover:text-amber-300 transition-colors">
+            {{ fest.name }}
+          </h3>
+        </div>
+      </div>
+
+      <!-- Content Body -->
+      <div class="p-5 flex-grow flex flex-col justify-between space-y-4">
+        <div class="space-y-2">
+          <div class="flex items-center gap-2 text-[11px] text-slate-400">
+            <span class="px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-medium">
+              {{ fest.religion_or_type }}
+            </span>
+          </div>
+          <p class="text-xs text-slate-600 dark:text-slate-300 line-clamp-3 leading-relaxed">
+            {{ fest.significance }}
+          </p>
+        </div>
+
+        <!-- Sacred Food preview -->
+        <div class="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-1 border-t border-slate-100 dark:border-slate-800 pt-3">
+          <span class="font-semibold text-amber-600 dark:text-amber-400">Festive Food:</span> {{ fest.food }}
+        </div>
+
+        <div class="pt-2 flex items-center justify-between">
+          <span class="text-[11px] text-slate-400">
+            {% with fest.states.count as count %}
+              {% if count > 0 %}{{ count }} Associated State{{ count|pluralize }}{% else %}Pan-India{% endif %}
+            {% endwith %}
+          </span>
+          <a href="{{ fest.get_absolute_url }}" class="btn-gold px-4 py-1.5 rounded-full text-xs font-bold inline-flex items-center gap-1.5 shadow-sm">
+            <span>Explore Rituals</span>
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- Pagination Controls -->
+  {% if is_paginated %}
+  <div class="flex items-center justify-center gap-2 pt-6">
+    {% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}&q={{ search_query }}&month={{ selected_month }}&religion={{ selected_religion }}&state={{ selected_state }}"
+       hx-get="?page={{ page_obj.previous_page_number }}&q={{ search_query }}&month={{ selected_month }}&religion={{ selected_religion }}&state={{ selected_state }}"
+       hx-target="#festival-grid-container"
+       hx-push-url="true"
+       class="px-3.5 py-2 rounded-xl text-xs font-semibold border border-slate-300 dark:border-slate-700 hover:bg-amber-500/10 transition-colors">
+      &larr; Previous
+    </a>
+    {% endif %}
+
+    <span class="text-xs text-slate-500 px-3">
+      Page {{ page_obj.number }} of {{ paginator.num_pages }}
+    </span>
+
+    {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}&q={{ search_query }}&month={{ selected_month }}&religion={{ selected_religion }}&state={{ selected_state }}"
+       hx-get="?page={{ page_obj.next_page_number }}&q={{ search_query }}&month={{ selected_month }}&religion={{ selected_religion }}&state={{ selected_state }}"
+       hx-target="#festival-grid-container"
+       hx-push-url="true"
+       class="px-3.5 py-2 rounded-xl text-xs font-semibold border border-slate-300 dark:border-slate-700 hover:bg-amber-500/10 transition-colors">
+      Next &rarr;
+    </a>
+    {% endif %}
+  </div>
+  {% endif %}
+
+  {% else %}
+  <div class="py-16 text-center space-y-3 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800">
+    <h3 class="text-lg font-bold font-heading">No Festivals Found</h3>
+    <p class="text-xs text-slate-500 max-w-sm mx-auto">No celebrations match this filter combination. Try clearing filters to see the full sacred calendar.</p>
+    <a href="{% url 'festivals:list' %}" class="btn-gold px-4 py-2 rounded-full text-xs font-bold inline-block">
+      View All Festivals
+    </a>
+  </div>
+  {% endif %}
+
+</div>

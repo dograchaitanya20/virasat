@@ -1,0 +1,129 @@
+<div class="h-full flex flex-col bg-white dark:bg-slate-900 overflow-y-auto">
+  
+  <!-- Side Panel Header with Hero -->
+  <div class="relative h-48 overflow-hidden bg-slate-950 shrink-0">
+    <img src="{{ state.hero_image }}" alt="Cultural region tile for {{ state.name }}" onerror="this.onerror=null; this.src='/static/images/placeholder.svg';" class="w-full h-full object-cover filter brightness-75">
+    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent"></div>
+    
+    <div class="absolute top-3 right-3">
+      <button @click="panelOpen = false" class="p-1.5 rounded-full bg-slate-900/80 text-white hover:bg-slate-800 transition-colors">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <div class="absolute bottom-3 left-4 right-4 text-white">
+      <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase bg-amber-500 text-slate-950">
+        {{ state.region }} India
+      </span>
+      <h3 class="text-2xl font-bold font-heading text-white mt-1">{{ state.name }}</h3>
+      <p class="text-xs text-amber-200">Capital: {{ state.capital }}</p>
+    </div>
+  </div>
+
+  <!-- Content Sections -->
+  <div class="p-5 space-y-6 flex-grow">
+    
+    <!-- Summary -->
+    <div class="space-y-2">
+      <h4 class="text-xs font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400 font-cinzel">Cultural Profile</h4>
+      <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+        {{ state.summary }}
+      </p>
+      <div class="pt-2 text-[11px] text-slate-500 space-y-1">
+        <p><strong class="text-slate-700 dark:text-slate-300">Languages:</strong> {{ state.languages }}</p>
+        <p><strong class="text-slate-700 dark:text-slate-300">Best Time:</strong> {{ state.best_time_to_visit }}</p>
+        <p><strong class="text-slate-700 dark:text-slate-300">Famous For:</strong> {{ state.famous_for }}</p>
+      </div>
+    </div>
+
+    <!-- Heritage Sites -->
+    {% if sites %}
+    <div class="space-y-3 pt-2 border-t border-slate-100 dark:border-slate-800">
+      <h4 class="text-xs font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400 font-cinzel">
+        Monuments & Sacred Sites ({{ sites.count }})
+      </h4>
+      <div class="space-y-2">
+        {% for site in sites %}
+        <a href="{{ site.get_absolute_url }}" class="flex items-center gap-3 p-2 rounded-xl bg-slate-50 dark:bg-slate-800 hover:bg-amber-500/10 transition-colors group">
+          <img src="{{ site.hero_image }}" alt="Heritage site {{ site.name }}" onerror="this.onerror=null; this.src='/static/images/placeholder.svg';" class="w-10 h-10 rounded-lg object-cover">
+          <div class="min-w-0">
+            <p class="text-xs font-bold text-slate-900 dark:text-slate-100 group-hover:text-amber-600 dark:group-hover:text-amber-400 truncate">{{ site.name }}</p>
+            <p class="text-[10px] text-slate-500">{{ site.category }} {% if site.unesco %}• UNESCO{% endif %}</p>
+          </div>
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- Living Festivals -->
+    {% if festivals %}
+    <div class="space-y-3 pt-2 border-t border-slate-100 dark:border-slate-800">
+      <h4 class="text-xs font-bold uppercase tracking-wider text-rose-600 dark:text-rose-400 font-cinzel">
+        Celebrations & Festivals ({{ festivals.count }})
+      </h4>
+      <div class="space-y-2">
+        {% for fest in festivals %}
+        <a href="{{ fest.get_absolute_url }}" class="flex items-center gap-3 p-2 rounded-xl bg-slate-50 dark:bg-slate-800 hover:bg-rose-500/10 transition-colors group">
+          <img src="{{ fest.hero_image }}" alt="Festival {{ fest.name }}" onerror="this.onerror=null; this.src='/static/images/placeholder.svg';" class="w-10 h-10 rounded-lg object-cover">
+          <div class="min-w-0">
+            <p class="text-xs font-bold text-slate-900 dark:text-slate-100 group-hover:text-rose-600 dark:group-hover:text-rose-400 truncate">{{ fest.name }}</p>
+            <p class="text-[10px] text-slate-500">{{ fest.approximate_dates }}</p>
+          </div>
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- Arts & Crafts -->
+    {% if arts %}
+    <div class="space-y-3 pt-2 border-t border-slate-100 dark:border-slate-800">
+      <h4 class="text-xs font-bold uppercase tracking-wider text-teal-600 dark:text-teal-400 font-cinzel">
+        Arts, Crafts & Dance ({{ arts.count }})
+      </h4>
+      <div class="space-y-2">
+        {% for art in arts %}
+        <a href="{{ art.get_absolute_url }}" class="flex items-center gap-3 p-2 rounded-xl bg-slate-50 dark:bg-slate-800 hover:bg-teal-500/10 transition-colors group">
+          <img src="{{ art.hero_image }}" alt="Traditional art {{ art.name }}" onerror="this.onerror=null; this.src='/static/images/placeholder.svg';" class="w-10 h-10 rounded-lg object-cover">
+          <div class="min-w-0">
+            <p class="text-xs font-bold text-slate-900 dark:text-slate-100 group-hover:text-teal-600 dark:group-hover:text-teal-400 truncate">{{ art.name }}</p>
+            <p class="text-[10px] text-slate-500">{{ art.get_category_display }}</p>
+          </div>
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- Regional Cuisines -->
+    {% if dishes %}
+    <div class="space-y-3 pt-2 border-t border-slate-100 dark:border-slate-800">
+      <h4 class="text-xs font-bold uppercase tracking-wider text-orange-600 dark:text-orange-400 font-cinzel">
+        Regional Delicacies ({{ dishes.count }})
+      </h4>
+      <div class="space-y-2">
+        {% for dish in dishes %}
+        <a href="{{ dish.get_absolute_url }}" class="flex items-center gap-3 p-2 rounded-xl bg-slate-50 dark:bg-slate-800 hover:bg-orange-500/10 transition-colors group">
+          <img src="{{ dish.hero_image }}" alt="Regional dish {{ dish.name }}" onerror="this.onerror=null; this.src='/static/images/placeholder.svg';" class="w-10 h-10 rounded-lg object-cover">
+          <div class="min-w-0">
+            <p class="text-xs font-bold text-slate-900 dark:text-slate-100 group-hover:text-orange-600 dark:group-hover:text-orange-400 truncate">{{ dish.name }}</p>
+            <p class="text-[10px] text-slate-500">{{ dish.get_veg_or_non_veg_display }} • {{ dish.meal_type }}</p>
+          </div>
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+  </div>
+
+  <!-- Bottom CTA -->
+  <div class="p-4 bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 shrink-0">
+    <a href="{{ state.get_absolute_url }}" class="w-full btn-gold py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2">
+      <span>View Full {{ state.name }} Chronicle</span>
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+    </a>
+  </div>
+
+</div>

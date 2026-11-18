@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block title %}Classical Dances, Music, Crafts & Fine Arts of India — Virasat{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
+  
+  <!-- Header -->
+  <div class="text-center space-y-3 max-w-3xl mx-auto">
+    <span class="text-xs font-bold uppercase tracking-widest text-teal-600 dark:text-teal-400 font-cinzel">Master Crafts & Classical Traditions</span>
+    <h1 class="text-4xl sm:text-5xl font-bold font-heading text-slate-900 dark:text-amber-50">
+      Classical Arts, Crafts & Performing Traditions
+    </h1>
+    <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
+      From Bharatanatyam mudras and Warli tribal murals to centuries-old Pashmina looms and Dhokra bronze castings.
+    </p>
+  </div>
+
+  <!-- Category Filter Tabs -->
+  <div class="bg-white dark:bg-slate-900 rounded-3xl p-5 sm:p-6 shadow-xl border border-amber-500/20 space-y-5">
+    <form autocomplete="off"
+          hx-get="{% url 'arts:list' %}"
+          hx-target="#art-grid-container"
+          hx-trigger="input changed delay:250ms, change"
+          hx-push-url="true"
+          class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <input type="hidden" name="category" value="{{ selected_category }}">
+      
+      <!-- Text Search -->
+      <div class="relative">
+        <input type="text" name="q" value="{{ search_query }}" placeholder="Search dance, craft, master artist..."
+               class="w-full pl-4 pr-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-amber-500">
+      </div>
+
+      <!-- State Dropdown -->
+      <div>
+        <select name="state"
+                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-amber-500">
+          <option value="">All Origin States</option>
+          {% for st in states %}
+          <option value="{{ st.slug }}" {% if selected_state == st.slug %}selected{% endif %}>{{ st.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <!-- UNESCO Intangible Toggle -->
+      <div class="flex items-center justify-between px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700">
+        <label class="flex items-center gap-2 cursor-pointer text-xs font-semibold text-slate-700 dark:text-slate-200">
+          <input type="checkbox" name="unesco" value="1" {% if selected_unesco == '1' %}checked{% endif %}
+                 class="w-4 h-4 text-amber-600 rounded focus:ring-amber-500 border-slate-400">
+          <span>UNESCO Intangible List</span>
+        </label>
+        <span class="badge-unesco text-[10px]">UNESCO</span>
+      </div>
+
+    </form>
+
+    <!-- Tab Pills -->
+    <div class="flex flex-wrap items-center gap-2 pt-2 border-t border-slate-100 dark:border-slate-800">
+      <span class="text-xs font-semibold text-slate-400 mr-1">Discipline:</span>
+      <a href="{% url 'arts:list' %}"
+         class="px-3.5 py-1.5 rounded-full text-xs font-semibold {% if not selected_category %}btn-gold{% else %}bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-amber-500/10{% endif %}">
+        All Disciplines
+      </a>
+      {% for cat in categories %}
+      <a href="{% url 'arts:list' %}?category={{ cat }}"
+         class="px-3.5 py-1.5 rounded-full text-xs font-semibold {% if selected_category == cat %}btn-gold{% else %}bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-amber-500/10{% endif %}">
+        {{ cat }}
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Dynamic Content Container -->
+  <div id="art-grid-container">
+    {% include 'arts/partials/art_grid.html' %}
+  </div>
+
+</div>
+{% endblock %}
