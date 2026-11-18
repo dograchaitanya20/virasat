@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <defs>
+    <linearGradient id="bgGrad_nagaland" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#022c22" />
+      <stop offset="50%" stop-color="#064e3b" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+    <radialGradient id="radial_nagaland" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#34d399" stop-opacity="0.25" />
+      <stop offset="100%" stop-color="#022c22" stop-opacity="0" />
+    </radialGradient>
+    <pattern id="jali_nagaland" width="80" height="80" patternUnits="userSpaceOnUse">
+      <circle cx="40" cy="40" r="28" fill="none" stroke="#34d399" stroke-width="1.2" stroke-opacity="0.12"/>
+      <path d="M 0 40 L 40 0 L 80 40 L 40 80 Z" fill="none" stroke="#34d399" stroke-width="1.2" stroke-opacity="0.15"/>
+      <circle cx="40" cy="40" r="10" fill="none" stroke="#34d399" stroke-width="1.2" stroke-opacity="0.12"/>
+      <path d="M 0 0 L 80 80 M 80 0 L 0 80" stroke="#34d399" stroke-width="0.8" stroke-opacity="0.08"/>
+    </pattern>
+    <filter id="shadow_nagaland" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000000" flood-opacity="0.6"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="800" fill="url(#bgGrad_nagaland)" />
+  <rect width="1200" height="800" fill="url(#radial_nagaland)" />
+  <rect width="1200" height="800" fill="url(#jali_nagaland)" />
+
+  <!-- Borders -->
+  <rect x="40" y="40" width="1120" height="720" rx="16" fill="none" stroke="#34d399" stroke-width="2.5" stroke-opacity="0.6"/>
+  <rect x="52" y="52" width="1096" height="696" rx="12" fill="none" stroke="#34d399" stroke-width="1" stroke-opacity="0.3" stroke-dasharray="8 6"/>
+
+  <!-- Corner Flourishes -->
+  <g fill="none" stroke="#34d399" stroke-width="2" stroke-opacity="0.7">
+    <!-- Top-Left -->
+    <path d="M 40 90 A 50 50 0 0 1 90 40 L 90 60 A 30 30 0 0 0 60 90 Z" fill="#34d399" fill-opacity="0.2"/>
+    <!-- Top-Right -->
+    <path d="M 1160 90 A 50 50 0 0 0 1110 40 L 1110 60 A 30 30 0 0 1 1140 90 Z" fill="#34d399" fill-opacity="0.2"/>
+    <!-- Bottom-Left -->
+    <path d="M 40 710 A 50 50 0 0 0 90 760 L 90 740 A 30 30 0 0 1 60 710 Z" fill="#34d399" fill-opacity="0.2"/>
+    <!-- Bottom-Right -->
+    <path d="M 1160 710 A 50 50 0 0 1 1110 760 L 1110 740 A 30 30 0 0 0 1140 710 Z" fill="#34d399" fill-opacity="0.2"/>
+  </g>
+
+  <!-- Central Emblem Ring -->
+  <g transform="translate(600, 310)">
+    <circle r="120" fill="none" stroke="#34d399" stroke-width="1.5" stroke-opacity="0.3"/>
+    <circle r="100" fill="#064e3b" fill-opacity="0.4" stroke="#34d399" stroke-width="2" stroke-opacity="0.6"/>
+    <!-- Lotus Petals Motif -->
+    <g fill="none" stroke="#34d399" stroke-width="1.5" stroke-opacity="0.7">
+      <path d="M 0 -70 C 20 -40 20 -20 0 0 C -20 -20 -20 -40 0 -70 Z" fill="#34d399" fill-opacity="0.15"/>
+      <path d="M 0 70 C 20 40 20 20 0 0 C -20 20 -20 40 0 70 Z" fill="#34d399" fill-opacity="0.15"/>
+      <path d="M -70 0 C -40 20 -20 20 0 0 C -20 -20 -40 -20 -70 0 Z" fill="#34d399" fill-opacity="0.15"/>
+      <path d="M 70 0 C 40 20 20 20 0 0 C 20 -20 40 -20 70 0 Z" fill="#34d399" fill-opacity="0.15"/>
+      <circle r="15" fill="#34d399" fill-opacity="0.3"/>
+    </g>
+  </g>
+
+  <!-- Region Badge -->
+  <g transform="translate(600, 150)">
+    <rect x="-160" y="-18" width="320" height="36" rx="18" fill="#064e3b" stroke="#34d399" stroke-width="1.5" filter="url(#shadow_nagaland)"/>
+    <text text-anchor="middle" y="5" font-family="'Cinzel', Georgia, serif" font-size="14" font-weight="700" letter-spacing="3" fill="#a7f3d0">
+      NORTHEAST INDIA • CULTURAL HERITAGE
+    </text>
+  </g>
+
+  <!-- State Name -->
+  <text x="600" y="490" text-anchor="middle" font-family="'Cinzel', 'Playfair Display', Georgia, serif" font-size="52" font-weight="700" letter-spacing="2" fill="#ecfdf5" filter="url(#shadow_nagaland)">
+    Nagaland
+  </text>
+
+  <!-- Ornamental Divider -->
+  <g transform="translate(600, 530)">
+    <line x1="-180" y1="0" x2="-20" y2="0" stroke="#34d399" stroke-width="1.5" stroke-opacity="0.7"/>
+    <polygon points="0,-8 8,0 0,8 -8,0" fill="#34d399" fill-opacity="0.9"/>
+    <circle cx="-10" cy="0" r="2.5" fill="#34d399" fill-opacity="0.8"/>
+    <circle cx="10" cy="0" r="2.5" fill="#34d399" fill-opacity="0.8"/>
+    <line x1="20" y1="0" x2="180" y2="0" stroke="#34d399" stroke-width="1.5" stroke-opacity="0.7"/>
+  </g>
+
+  <!-- Capital & Details -->
+  <text x="600" y="575" text-anchor="middle" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="20" font-weight="500" letter-spacing="1" fill="#ecfdf5" fill-opacity="0.9">
+    Capital: Kohima
+  </text>
+  <text x="600" y="610" text-anchor="middle" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="15" font-weight="400" letter-spacing="2" fill="#34d399" fill-opacity="0.85">
+    TRADITIONS • ARCHITECTURE • LIVING ARTS
+  </text>
+
+  <!-- Footer Brand -->
+  <text x="600" y="725" text-anchor="middle" font-family="'Cinzel', Georgia, serif" font-size="12" font-weight="600" letter-spacing="4" fill="#ecfdf5" fill-opacity="0.5">
+    VIRASAT • LIVING CIVILIZATIONAL ARCHIVE
+  </text>
+</svg>
